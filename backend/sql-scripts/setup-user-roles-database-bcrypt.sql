@@ -55,12 +55,12 @@ VALUES
 ('ROLE_TEMP'),('ROLE_VIP'),('ROLE_SVIP'),('ROLE_ADMIN');
 
 --
--- Table structure for table `users_roles`
+-- Table structure for table `user_role`
 --
 
-DROP TABLE IF EXISTS `users_role`;
+DROP TABLE IF EXISTS `user_role`;
 
-CREATE TABLE `users_role` (
+CREATE TABLE `user_role` (
     `user_id` int(11) NOT NULL,
     `role_id` int(11) NOT NULL,
     `start` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -82,10 +82,10 @@ CREATE TABLE `users_role` (
 SET FOREIGN_KEY_CHECKS = 1;
 
 --
--- Dumping data for table `users_role`
+-- Dumping data for table `user_role`
 --
 
-INSERT INTO `users_role` (user_id,role_id,start,end)
+INSERT INTO `user_role` (user_id,role_id,start,end)
 VALUES
 (1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL 7 DAY),
 (2, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL 30 DAY),

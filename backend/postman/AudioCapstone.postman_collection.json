@@ -1,0 +1,169 @@
+{
+	"info": {
+		"_postman_id": "51dfbed3-9448-4cfb-bc2a-a91f5fd1140f",
+		"name": "AudioCapstone",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10973385"
+	},
+	"item": [
+		{
+			"name": "DummySignup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"john\",\n    \"email\": \"john456@gmail.com\",\n    \"password\": \"audio123\",\n    \"role\": \"temp\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/dummy/user/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"dummy",
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DummyLogin",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "audio123",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "mike",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/dummy/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"dummy",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DummyPlayAudio",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "audio123",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "mike",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/dummy/api/playlist/EnglishA1/audio/Celpip_9_T1_11.mp3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"dummy",
+						"api",
+						"playlist",
+						"EnglishA1",
+						"audio",
+						"Celpip_9_T1_11.mp3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DummyFileUpload",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "audio123",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "mike",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"playlist\": \"EnglishA1\",\n    \"fileName\": \"Celpip_9_T1_11.mp3\",\n    \"language\": \"English\",\n    \"content\": \"XXXXXXXXXXXXXX\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/dummy/api/audio",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"dummy",
+						"api",
+						"audio"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
