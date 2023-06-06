@@ -12,7 +12,7 @@
 	<artifactId>audio</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>audio</name>
-	<description>Aud.io backend</description>
+	<description>Spring Boot Audio Player</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
