@@ -87,7 +87,50 @@ code {
   z-index: 1;
 }
 
-.scroll-bar{
-  overflow-y: auto;
-  height: 100vh;
+.subTitle{
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  color: #f1356d;
+  text-align: center;
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 80%;
+}
+
+.field {
+  align-items: center;
+}
+
+.field label {
+  display: inline-block;
+  width: 100px;
+  vertical-align: top;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 200px;
+
+}
+
+.submit {
+  padding: 20px;
+}
+
+.submit div {
+  margin: 10px;
+}
+
+.submit button {
+  background-color: #800d29;
+  color: white;
+  font-size: bold;
+  padding: 5px 10px;
 }
