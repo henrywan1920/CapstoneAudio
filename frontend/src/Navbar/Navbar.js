@@ -18,15 +18,18 @@ const Navbar = () => {
           <NavLink to="/Home" activeStyle>
             Home
           </NavLink>
-          <NavLink to="/Login" activeStyle>
+          <NavLink to="/Upload" activeStyle>
             Upload
           </NavLink>
-          <NavLink to="/Blogs" activeStyle>
-            About As
+          <NavLink to="/contact" activeStyle>
+            Contact Us
+          </NavLink>
+          <NavLink to="/signup" activeStyle>
+            Register
           </NavLink>
         </NavMenu>
         <NavBtn>
-          <NavBtnLink to="/Signup">Sign Up</NavBtnLink>
+          <NavBtnLink to="/login">Login</NavBtnLink>
         </NavBtn>
       </Nav>
     </>

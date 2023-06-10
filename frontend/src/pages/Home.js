@@ -1,13 +1,22 @@
-import exampleImg from './img/example.jpg';
+import exampleImg from "./img/example.jpg";
 const Home = () => {
-    return ( <>
+  return (
+    <>
+      <container id="hp-container">
+        <div class="hp-intro1">
+          <p>Audio Translator</p>
+          <h2>
+            Designed to help non-native speakers to be a native speaker in 5
+            secs
+          </h2>
+        </div>
 
-        <h1>homepage</h1>
-        <img className="exampleImg" src={exampleImg} alt="examplePage"></img>
-        <div className="scroll-bar">example</div>
-
+        <div class="hp-intro2">
+          <img className="exampleImg" src={exampleImg} alt="examplePage"></img>
+        </div>
+      </container>
     </>
-     );
-}
- 
+  );
+};
+
 export default Home;
