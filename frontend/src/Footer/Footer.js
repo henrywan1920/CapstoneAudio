@@ -17,20 +17,20 @@ const Footer = () => {
             <FooterLink href="/home">Home</FooterLink>
           </Column>
           <Column>
-            <FooterLink href="/blogs">Blogs</FooterLink>
+            <FooterLink href="/contact">ContactUs</FooterLink>
           </Column>
           <Column>
-            <FooterLink href="/signin">Signin</FooterLink>
+            <FooterLink href="/signup">Register</FooterLink>
           </Column>
           <Column>
-            <FooterLink href="/signup">Signup</FooterLink>
+            <FooterLink href="/login">Login</FooterLink>
           </Column>
         </Row>
-        <h4
-          style={{ color: "#F5EFE7", textAlign: "center", marginTop: "20px" }}
+        <h5
+          style={{ color: "#F5EFE7", textAlign: "center", margin: "5px 0px" }}
         >
           &copy; 2023 AUDIO.IO BY HUI WAN, STELLA LI & JINGXU LAN
-        </h4>
+        </h5>
       </Container>
     </Box>
   );
