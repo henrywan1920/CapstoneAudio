@@ -35,4 +35,13 @@ public class PlayAudioResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "PlayAudioResponse{" +
+                "audio='" + audio + '\'' +
+                ", subtitle='" + subtitle + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

@@ -21,16 +21,95 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/dummy/user/register",
+					"raw": "http://localhost:5000/dummy/user/register",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "5000",
 					"path": [
 						"dummy",
 						"user",
 						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AWSSignup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"john\",\n    \"email\": \"john456@gmail.com\",\n    \"password\": \"audio123\",\n    \"role\": \"temp\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://audio-api.us-east-2.elasticbeanstalk.com/dummy/user/register",
+					"protocol": "http",
+					"host": [
+						"audio-api",
+						"us-east-2",
+						"elasticbeanstalk",
+						"com"
+					],
+					"path": [
+						"dummy",
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AWSLogin",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "john456@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "audio123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"john\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://audio-api.us-east-2.elasticbeanstalk.com/dummy/user/login",
+					"protocol": "http",
+					"host": [
+						"audio-api",
+						"us-east-2",
+						"elasticbeanstalk",
+						"com"
+					],
+					"path": [
+						"dummy",
+						"user",
+						"login"
 					]
 				}
 			},
@@ -43,13 +122,13 @@
 					"type": "basic",
 					"basic": [
 						{
-							"key": "password",
-							"value": "audio123",
+							"key": "username",
+							"value": "john456@gmail.com",
 							"type": "string"
 						},
 						{
-							"key": "username",
-							"value": "mike",
+							"key": "password",
+							"value": "audio123",
 							"type": "string"
 						}
 					]
@@ -58,7 +137,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "",
+					"raw": "{\n    \"username\": \"john\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -66,12 +145,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/dummy/user/login",
+					"raw": "http://localhost:5000/dummy/user/login",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "5000",
 					"path": [
 						"dummy",
 						"user",
@@ -88,13 +167,13 @@
 					"type": "basic",
 					"basic": [
 						{
-							"key": "password",
-							"value": "audio123",
+							"key": "username",
+							"value": "john456@gmail.com",
 							"type": "string"
 						},
 						{
-							"key": "username",
-							"value": "mike",
+							"key": "password",
+							"value": "audio123",
 							"type": "string"
 						}
 					]
@@ -102,12 +181,53 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/dummy/api/playlist/EnglishA1/audio/Celpip_9_T1_11.mp3",
+					"raw": "http://localhost:5000/dummy/api/playlist/EnglishA1/audio/Celpip_9_T1_11.mp3",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "5000",
+					"path": [
+						"dummy",
+						"api",
+						"playlist",
+						"EnglishA1",
+						"audio",
+						"Celpip_9_T1_11.mp3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AWSPlayAudio",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "john456@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "audio123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://audio-api.us-east-2.elasticbeanstalk.com/dummy/api/playlist/EnglishA1/audio/Celpip_9_T1_11.mp3",
+					"protocol": "http",
+					"host": [
+						"audio-api",
+						"us-east-2",
+						"elasticbeanstalk",
+						"com"
+					],
 					"path": [
 						"dummy",
 						"api",
@@ -127,13 +247,13 @@
 					"type": "basic",
 					"basic": [
 						{
-							"key": "password",
-							"value": "audio123",
+							"key": "username",
+							"value": "john456@gmail.com",
 							"type": "string"
 						},
 						{
-							"key": "username",
-							"value": "mike",
+							"key": "password",
+							"value": "audio123",
 							"type": "string"
 						}
 					]
@@ -150,16 +270,137 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/dummy/api/audio",
+					"raw": "http://localhost:5000/dummy/api/audio",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "5000",
 					"path": [
 						"dummy",
 						"api",
 						"audio"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AWSFileUpload",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "john456@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "audio123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"playlist\": \"EnglishA1\",\n    \"fileName\": \"Celpip_9_T1_11.mp3\",\n    \"language\": \"English\",\n    \"content\": \"XXXXXXXXXXXXXX\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://audio-api.us-east-2.elasticbeanstalk.com/dummy/api/audio",
+					"protocol": "http",
+					"host": [
+						"audio-api",
+						"us-east-2",
+						"elasticbeanstalk",
+						"com"
+					],
+					"path": [
+						"dummy",
+						"api",
+						"audio"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DummyFetchAll",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "john456@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "audio123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/dummy/api/audios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"dummy",
+						"api",
+						"audios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AWSFetchAll",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "john456@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "audio123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://audio-api.us-east-2.elasticbeanstalk.com/dummy/api/audios",
+					"protocol": "http",
+					"host": [
+						"audio-api",
+						"us-east-2",
+						"elasticbeanstalk",
+						"com"
+					],
+					"path": [
+						"dummy",
+						"api",
+						"audios"
 					]
 				}
 			},

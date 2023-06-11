@@ -24,4 +24,12 @@ public class UploadAudioResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "UploadAudioResponse{" +
+                "fileName='" + fileName + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }
