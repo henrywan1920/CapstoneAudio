@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `username` varchar(50) NOT NULL,
+    `email` varchar(50) NOT NULL UNIQUE,
     `password` char(80) NOT NULL,
     `enabled` tinyint NOT NULL,
     PRIMARY KEY (`id`)
@@ -28,11 +29,11 @@ CREATE TABLE `user` (
 --
 -- Default passwords here are: audio123
 --
-INSERT INTO `user` (`username`, `password`, `enabled`)
+INSERT INTO `user` (`username`, `email`, `password`, `enabled`)
 VALUES
-('anna', '$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1),
-('mike', '$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1),
-('david', '$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1);
+('anna', 'anna987@outlook.com', '$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1),
+('mike', 'mike789@gmail.com', '$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1),
+('david', 'david123@hotmail.com', '$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1);
 
 --
 -- Table structure for table `role`
