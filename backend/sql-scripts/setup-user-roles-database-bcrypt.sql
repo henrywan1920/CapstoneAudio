@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `username` varchar(50) NOT NULL,
+    `email` varchar(50) NOT NULL UNIQUE,
     `password` char(80) NOT NULL,
     `enabled` tinyint NOT NULL,
     PRIMARY KEY (`id`)
@@ -28,11 +29,11 @@ CREATE TABLE `user` (
 --
 -- Default passwords here are: audio123
 --
-INSERT INTO `user` (`username`, `password`, `enabled`)
+INSERT INTO `user` (`username`, `email`, `password`, `enabled`)
 VALUES
-('anna', '$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1),
-('mike', '$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1),
-('david', '$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1);
+('anna', 'anna987@outlook.com', '$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1),
+('mike', 'mike789@gmail.com', '$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1),
+('david', 'david123@hotmail.com', '$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1);
 
 --
 -- Table structure for table `role`
@@ -55,12 +56,12 @@ VALUES
 ('ROLE_TEMP'),('ROLE_VIP'),('ROLE_SVIP'),('ROLE_ADMIN');
 
 --
--- Table structure for table `users_roles`
+-- Table structure for table `user_role`
 --
 
-DROP TABLE IF EXISTS `users_role`;
+DROP TABLE IF EXISTS `user_role`;
 
-CREATE TABLE `users_role` (
+CREATE TABLE `user_role` (
     `user_id` int(11) NOT NULL,
     `role_id` int(11) NOT NULL,
     `start` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -82,10 +83,10 @@ CREATE TABLE `users_role` (
 SET FOREIGN_KEY_CHECKS = 1;
 
 --
--- Dumping data for table `users_role`
+-- Dumping data for table `user_role`
 --
 
-INSERT INTO `users_role` (user_id,role_id,start,end)
+INSERT INTO `user_role` (user_id,role_id,start,end)
 VALUES
 (1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL 7 DAY),
 (2, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL 30 DAY),

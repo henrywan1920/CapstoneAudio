@@ -1,8 +1,8 @@
 import React from "react";
-import {Outlet} from "react-router-dom";
-import Navbar from "../Navbar";
-import './index.css';
-import Footer from '../Footer';
+import { Outlet } from "react-router-dom";
+import Navbar from "../Navbar/Navbar";
+import "./index.css";
+import Footer from "../Footer/Footer";
 
 const Layout = () => {
   return (
@@ -12,7 +12,7 @@ const Layout = () => {
       </div>
       <Navbar />
       <Outlet />
-      <Footer/>
+      <Footer />
     </>
   );
 };

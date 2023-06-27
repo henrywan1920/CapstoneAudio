@@ -4,7 +4,7 @@ const Home = () => {
 
         <h1>homepage</h1>
         <img className="exampleImg" src={exampleImg} alt="examplePage"></img>
-        <div className="scroll-bar">example</div>
+        
 
     </>
      );
