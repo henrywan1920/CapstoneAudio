@@ -1,20 +1,25 @@
 package com.capstone.springboot.audio.models.response;
 
 public class UploadAudioResponse {
-    private String fileName;
+    private String mediaFileName;
+    private String transcriptFileName;
     private String message;
 
-    public UploadAudioResponse(String fileName, String message) {
-        this.fileName = fileName;
+    public UploadAudioResponse() {
+    }
+
+    public UploadAudioResponse(String mediaFileName, String transcriptFileName, String message) {
+        this.mediaFileName = mediaFileName;
+        this.transcriptFileName = transcriptFileName;
         this.message = message;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getMediaFileName() {
+        return mediaFileName;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setMediaFileName(String mediaFileName) {
+        this.mediaFileName = mediaFileName;
     }
 
     public String getMessage() {
@@ -25,10 +30,19 @@ public class UploadAudioResponse {
         this.message = message;
     }
 
+    public String getTranscriptFileName() {
+        return transcriptFileName;
+    }
+
+    public void setTranscriptFileName(String transcriptFileName) {
+        this.transcriptFileName = transcriptFileName;
+    }
+
     @Override
     public String toString() {
         return "UploadAudioResponse{" +
-                "fileName='" + fileName + '\'' +
+                "mediaFileName='" + mediaFileName + '\'' +
+                ", transcriptFileName='" + transcriptFileName + '\'' +
                 ", message='" + message + '\'' +
                 '}';
     }

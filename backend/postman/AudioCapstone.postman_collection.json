@@ -37,6 +37,35 @@
 			"response": []
 		},
 		{
+			"name": "LocalSignup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"john\",\n    \"email\": \"john456@gmail.com\",\n    \"password\": \"audio123\",\n    \"role\": \"temp\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/user/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "AWSSignup",
 			"request": {
 				"method": "POST",
@@ -51,10 +80,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://audio-api.us-east-2.elasticbeanstalk.com/dummy/user/register",
+					"raw": "http://audio-api-v1.us-east-2.elasticbeanstalk.com/dummy/user/register",
 					"protocol": "http",
 					"host": [
-						"audio-api",
+						"audio-api-v1",
 						"us-east-2",
 						"elasticbeanstalk",
 						"com"
@@ -98,10 +127,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://audio-api.us-east-2.elasticbeanstalk.com/dummy/user/login",
+					"raw": "http://audio-api-v1.us-east-2.elasticbeanstalk.com/dummy/user/login",
 					"protocol": "http",
 					"host": [
-						"audio-api",
+						"audio-api-v1",
 						"us-east-2",
 						"elasticbeanstalk",
 						"com"
@@ -220,10 +249,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://audio-api.us-east-2.elasticbeanstalk.com/dummy/api/playlist/EnglishA1/audio/Celpip_9_T1_11.mp3",
+					"raw": "http://audio-api-v1.us-east-2.elasticbeanstalk.com/dummy/api/playlist/EnglishA1/audio/Celpip_9_T1_11.mp3",
 					"protocol": "http",
 					"host": [
-						"audio-api",
+						"audio-api-v1",
 						"us-east-2",
 						"elasticbeanstalk",
 						"com"
@@ -315,10 +344,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://audio-api.us-east-2.elasticbeanstalk.com/dummy/api/audio",
+					"raw": "http://audio-api-v1.us-east-2.elasticbeanstalk.com/dummy/api/audio",
 					"protocol": "http",
 					"host": [
-						"audio-api",
+						"audio-api-v1",
 						"us-east-2",
 						"elasticbeanstalk",
 						"com"
@@ -389,10 +418,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://audio-api.us-east-2.elasticbeanstalk.com/dummy/api/audios",
+					"raw": "http://audio-api-v1.us-east-2.elasticbeanstalk.com/dummy/api/audios",
 					"protocol": "http",
 					"host": [
-						"audio-api",
+						"audio-api-v1",
 						"us-east-2",
 						"elasticbeanstalk",
 						"com"

@@ -79,12 +79,13 @@ VALUES
 
 DROP TABLE IF EXISTS `player`;
 CREATE TABLE `player` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
     `user_id` int(11) NOT NULL,
     `audio_id` int(11) NOT NULL,
     `transcript_id` int(11) NOT NULL,
     `playlist_id` int(11) NOT NULL,
 
-    PRIMARY KEY (`user_id`, `audio_id`,`transcript_id`, `playlist_id`),
+    PRIMARY KEY (`id`),
 
     CONSTRAINT `FK_USER` FOREIGN KEY (`user_id`)
     REFERENCES `user` (`id`)

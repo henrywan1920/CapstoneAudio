@@ -1,6 +1,11 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 
+### AWS ###
+src/main/resources/AWSCredentials.json
+AWSCredentials.json
+*/AWSCredentials.json
+
 ### STS ###
 .apt_generated
 .classpath

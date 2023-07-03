@@ -2,9 +2,11 @@ package com.capstone.springboot.audio.entity;
 
 import jakarta.persistence.*;
 
+import java.sql.Timestamp;
+
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name = "playlist")
+public class Playlist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -13,8 +15,12 @@ public class Role {
     @Column(name = "name")
     private String name;
 
-    public Role(String name) {
+    @Column(name = "time_created")
+    private Timestamp timeCreated;
+
+    public Playlist(String name, Timestamp timeCreated) {
         this.name = name;
+        this.timeCreated = timeCreated;
     }
 
     public int getId() {
@@ -33,11 +39,20 @@ public class Role {
         this.name = name;
     }
 
+    public Timestamp getTimeCreated() {
+        return timeCreated;
+    }
+
+    public void setTimeCreated(Timestamp timeCreated) {
+        this.timeCreated = timeCreated;
+    }
+
     @Override
     public String toString() {
-        return "Role{" +
+        return "Playlist{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", timeCreated=" + timeCreated +
                 '}';
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/dummy/api")
-public class PlayerController {
+public class DummyPlayerController {
     @GetMapping("/audios")
     public FetchAudiosResponse fetchAudiosOfCustomer() {
         String message = "Get all the audios associated with a customer";
@@ -32,8 +32,9 @@ public class PlayerController {
     @PostMapping("/audio")
     public UploadAudioResponse uploadAudio(@RequestBody UploadAudioRequest uploadAudioRequest) {
         String message = "Upload the audio successfully";
-        String fileName = "Celpip_9_T1_11.mp3";
-        UploadAudioResponse response = new UploadAudioResponse(fileName, message);
+        String mediaFileName = "Celpip_9_T1_11.mp3";
+        String transcriptFileName = "Celpip_9_T1_11.srt";
+        UploadAudioResponse response = new UploadAudioResponse(mediaFileName, transcriptFileName, message);
         return response;
     }
 

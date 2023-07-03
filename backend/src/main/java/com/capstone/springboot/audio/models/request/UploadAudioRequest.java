@@ -1,14 +1,22 @@
 package com.capstone.springboot.audio.models.request;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class UploadAudioRequest {
     private String playlist;
-    private String fileName;
-    private String language;
-    private String content;
+    private String mediaFileName;
 
-    public UploadAudioRequest(String playlist, String fileName, String language, String content) {
+    private String transcriptFileName;
+    private String language;
+    private MultipartFile content;
+
+    public UploadAudioRequest() {
+    }
+
+    public UploadAudioRequest(String playlist, String mediaFileName, String transcriptFileName, String language, MultipartFile content) {
         this.playlist = playlist;
-        this.fileName = fileName;
+        this.mediaFileName = mediaFileName;
+        this.transcriptFileName = transcriptFileName;
         this.language = language;
         this.content = content;
     }
@@ -21,12 +29,12 @@ public class UploadAudioRequest {
         this.playlist = playlist;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getMediaFileName() {
+        return mediaFileName;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setMediaFileName(String mediaFileName) {
+        this.mediaFileName = mediaFileName;
     }
 
     public String getLanguage() {
@@ -37,11 +45,19 @@ public class UploadAudioRequest {
         this.language = language;
     }
 
-    public String getContent() {
+    public MultipartFile getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(MultipartFile content) {
         this.content = content;
+    }
+
+    public String getTranscriptFileName() {
+        return transcriptFileName;
+    }
+
+    public void setTranscriptFileName(String transcriptFileName) {
+        this.transcriptFileName = transcriptFileName;
     }
 }

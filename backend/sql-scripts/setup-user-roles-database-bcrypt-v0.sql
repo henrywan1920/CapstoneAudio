@@ -31,9 +31,9 @@ CREATE TABLE `user` (
 --
 INSERT INTO `user` (`username`, `email`, `password`, `enabled`)
 VALUES
-('anna', 'anna987@outlook.com', '$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1),
-('mike', 'mike789@gmail.com', '$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1),
-('david', 'david123@hotmail.com', '$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1);
+('anna', 'anna987@outlook.com', '{bcrypt}$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1),
+('mike', 'mike789@gmail.com', '{bcrypt}$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1),
+('david', 'david123@hotmail.com', '{bcrypt}$2a$10$5d7DEkgVem/0Seb/GAfDdu6U9kOOBw4HxeaVUY01Oz9fz3pH7u2ey', 1);
 
 --
 -- Table structure for table `role`
