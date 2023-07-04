@@ -2,7 +2,11 @@ package com.capstone.springboot.audio.service;
 
 import com.amazonaws.services.transcribe.AmazonTranscribeClient;
 import com.amazonaws.services.transcribe.model.*;
-import com.capstone.springboot.audio.dao.AWSS3Repository;
+import com.capstone.springboot.audio.dao.*;
+import com.capstone.springboot.audio.entity.Audio;
+import com.capstone.springboot.audio.entity.Player;
+import com.capstone.springboot.audio.entity.Playlist;
+import com.capstone.springboot.audio.entity.Transcript;
 import com.capstone.springboot.audio.rest.PlayerController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.sql.Timestamp;
+
 @Service
 public class PlayerServiceImpl implements PlayerService {
     private static final Logger logger = LoggerFactory.getLogger(PlayerController.class);
@@ -20,10 +26,36 @@ public class PlayerServiceImpl implements PlayerService {
     private AWSS3Repository s3Repository;
     private AmazonTranscribeClient transcribeClient;
 
+    private AudioRepository audioRepository;
+    private TranscriptRepository transcriptRepository;
+    private PlaylistRepository playlistRepository;
+    private PlayerRepository playerRepository;
+
     @Autowired
-    public PlayerServiceImpl(AWSS3Repository s3Repository, AmazonTranscribeClient transcribeClient) {
+    public PlayerServiceImpl(AWSS3Repository s3Repository, AmazonTranscribeClient transcribeClient,
+                             AudioRepository audioRepository, TranscriptRepository transcriptRepository,
+                             PlaylistRepository playlistRepository, PlayerRepository playerRepository) {
         this.s3Repository = s3Repository;
         this.transcribeClient = transcribeClient;
+        this.audioRepository = audioRepository;
+        this.transcriptRepository = transcriptRepository;
+        this.playlistRepository = playlistRepository;
+        this.playerRepository = playerRepository;
+    }
+
+    @Override
+    public void createNewRecordWith(String username,
+                                    String audioName, String audioUrl,
+                                    String transcriptName, String transcriptUrl,
+                                    String playlist) {
+        Audio theAudio = audioRepository.save(new Audio(audioName, audioUrl));
+        Transcript theTranscript = transcriptRepository.save(new Transcript(transcriptName, transcriptUrl));
+        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+        Playlist thePlaylist = playlistRepository.save(new Playlist(playlist, currentTimestamp));
+        int audioId = theAudio.getId();
+        int transcriptId = theTranscript.getId();
+        int playlistId = thePlaylist.getId();
+        Player thePlayer = playerRepository.save(new Player(username, audioId, transcriptId, playlistId));
     }
 
     @Override

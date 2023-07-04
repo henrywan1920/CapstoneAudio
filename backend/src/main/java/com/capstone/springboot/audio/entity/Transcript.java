@@ -13,12 +13,12 @@ public class Transcript {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "arn")
-    private String arn;
+    @Column(name = "url")
+    private String url;
 
-    public Transcript(String name, String arn) {
+    public Transcript(String name, String url) {
         this.name = name;
-        this.arn = arn;
+        this.url = url;
     }
 
     public int getId() {
@@ -37,12 +37,12 @@ public class Transcript {
         this.name = name;
     }
 
-    public String getArn() {
-        return arn;
+    public String getUrl() {
+        return url;
     }
 
-    public void setArn(String arn) {
-        this.arn = arn;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class Transcript {
         return "Transcript{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", arn='" + arn + '\'' +
+                ", arn='" + url + '\'' +
                 '}';
     }
 }

@@ -34,15 +34,6 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<BasicResponse> userLogin() {
-        /*Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = "";
-        if (principal instanceof User) {
-            username = ((User)principal).getUsername();
-        } else {
-            username = principal.toString();
-        }*/
-        // boolean existing = userService.findUserByName(username);
-
         BasicResponse response = new BasicResponse("Login successfully");
         response.setStatus(HttpStatus.OK.value());
         response.setTimeStamp(System.currentTimeMillis());

@@ -33,17 +33,17 @@ public class DummyPlayerController {
     public UploadAudioResponse uploadAudio(@RequestBody UploadAudioRequest uploadAudioRequest) {
         String message = "Upload the audio successfully";
         String mediaFileName = "Celpip_9_T1_11.mp3";
-        String transcriptFileName = "Celpip_9_T1_11.srt";
+        String transcriptFileName = "Celpip_9_T1_11.srt.srt";
         UploadAudioResponse response = new UploadAudioResponse(mediaFileName, transcriptFileName, message);
         return response;
     }
 
     @GetMapping("/playlist/{playlist}/audio/{audio}")
     public PlayAudioResponse playAudio(@PathVariable String playlist, @PathVariable String audio) {
-        String audioARN = "arn:aws:::audio-capstone/mike/EnglishA1/Celpip_9_T1_11.mp3";
-        String subtitleARN = "arn:aws:::audio-capstone/mike/EnglishA1/Celpip_9_T1_11.srt";
-        String message = "Get the audio and subtitle ARN successfully";
-        PlayAudioResponse response = new PlayAudioResponse(audioARN, subtitleARN, message);
+        String audioObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.mp3";
+        String subtitleObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.srt.srt";
+        String message = "Get the audio and subtitle url successfully";
+        PlayAudioResponse response = new PlayAudioResponse(audioObjectUrl, subtitleObjectUrl, message);
         return response;
     }
 }

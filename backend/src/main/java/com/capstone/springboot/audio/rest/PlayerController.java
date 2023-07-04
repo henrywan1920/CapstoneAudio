@@ -45,6 +45,15 @@ public class PlayerController {
         return response;
     }
 
+    @GetMapping("/playlist/{playlist}/audio/{audio}")
+    public PlayAudioResponse playAudio(@PathVariable String playlist, @PathVariable String audio) {
+        String audioObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.mp3";
+        String subtitleObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.srt.srt";
+        String message = "Get the audio and subtitle object URL successfully";
+        PlayAudioResponse response = new PlayAudioResponse(audioObjectUrl, subtitleObjectUrl, message);
+        return response;
+    }
+
     @PostMapping("/audio")
     public UploadAudioResponse uploadAudio(@ModelAttribute UploadAudioRequest uploadAudioRequest) throws IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -63,7 +72,11 @@ public class PlayerController {
         String transcriptionJobName = customizedUsername + "_" + playlist + "_" + mediaFileName.replace(".", "_");
         String srtUrl = generateTranscriptFromMedia(audioUrl, transcriptionJobName, targetLanguage, outputFilePath);
         logger.info("Speech to Text Completed and AWS Transcribe URL: " + srtUrl);
-
+        playerService.createNewRecordWith(currentPrincipalName,
+                mediaFileName, audioUrl,
+                transcriptFileName, srtUrl,
+                playlist);
+        logger.info("Add the new audio and subtitle to the database successfully.");
         removeFileFromLocalPool(audioFile);
         String message = "Upload the audio and generate transcription successfully";
         UploadAudioResponse response = new UploadAudioResponse(mediaFileName, transcriptFileName, message);
@@ -100,14 +113,5 @@ public class PlayerController {
         byte[] audioBytes = content.getBytes();
         fileOutputStream.write(audioBytes);
         return audioFile;
-    }
-
-    @GetMapping("/playlist/{playlist}/audio/{audio}")
-    public PlayAudioResponse playAudio(@PathVariable String playlist, @PathVariable String audio) {
-        String audioARN = "arn:aws:::audio-capstone/mike/EnglishA1/Celpip_9_T1_11.mp3";
-        String subtitleARN = "arn:aws:::audio-capstone/mike/EnglishA1/Celpip_9_T1_11.srt";
-        String message = "Get the audio and subtitle ARN successfully";
-        PlayAudioResponse response = new PlayAudioResponse(audioARN, subtitleARN, message);
-        return response;
     }
 }

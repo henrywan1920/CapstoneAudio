@@ -14,12 +14,12 @@ public class Audio {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "arn")
-    private String arn;
+    @Column(name = "url")
+    private String url;
 
-    public Audio(String name, String arn) {
+    public Audio(String name, String url) {
         this.name = name;
-        this.arn = arn;
+        this.url = url;
     }
 
     public int getId() {
@@ -38,12 +38,12 @@ public class Audio {
         this.name = name;
     }
 
-    public String getArn() {
-        return arn;
+    public String getUrl() {
+        return url;
     }
 
-    public void setArn(String arn) {
-        this.arn = arn;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class Audio {
         return "Audio{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", arn='" + arn + '\'' +
+                ", arn='" + url + '\'' +
                 '}';
     }
 }

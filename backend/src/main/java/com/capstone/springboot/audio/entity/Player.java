@@ -9,8 +9,10 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name = "user_id")
-    private int userId;
+
+    // username must be an email
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "audio_id")
     private int audioId;
@@ -21,8 +23,8 @@ public class Player {
     @Column(name = "playlist_id")
     private int playlistId;
 
-    public Player(int userId, int audioId, int transcriptId, int playlistId) {
-        this.userId = userId;
+    public Player(String username, int audioId, int transcriptId, int playlistId) {
+        this.username = username;
         this.audioId = audioId;
         this.transcriptId = transcriptId;
         this.playlistId = playlistId;
@@ -36,12 +38,12 @@ public class Player {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getAudioId() {
@@ -72,7 +74,7 @@ public class Player {
     public String toString() {
         return "Player{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", username='" + username + '\'' +
                 ", audioId=" + audioId +
                 ", transcriptId=" + transcriptId +
                 ", playlistId=" + playlistId +
