@@ -8,6 +8,10 @@ public class FetchAudiosResponse {
     private HashMap<String, List<String>> audios;
     private String message;
 
+    private int status;
+
+    private long timeStamp;
+
     public FetchAudiosResponse(HashMap<String, List<String>> audios, String message) {
         this.audios = audios;
         this.message = message;
@@ -38,11 +42,29 @@ public class FetchAudiosResponse {
         audiosInAPlaylist.add(newAudioName);
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
     @Override
     public String toString() {
         return "FetchAudiosResponse{" +
-                "audios=" + audios.toString() +
+                "audios=" + audios +
                 ", message='" + message + '\'' +
+                ", status=" + status +
+                ", timeStamp=" + timeStamp +
                 '}';
     }
 }

@@ -2,10 +2,13 @@ package com.capstone.springboot.audio.rest;
 
 import com.capstone.springboot.audio.exception.NoAudioFoundException;
 import com.capstone.springboot.audio.models.request.UploadAudioRequest;
+import com.capstone.springboot.audio.models.response.BasicResponse;
 import com.capstone.springboot.audio.models.response.FetchAudiosResponse;
 import com.capstone.springboot.audio.models.response.PlayAudioResponse;
 import com.capstone.springboot.audio.models.response.UploadAudioResponse;
 import com.capstone.springboot.audio.service.PlayerService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +34,7 @@ public class PlayerController {
     }
 
     @GetMapping("/audios")
-    public FetchAudiosResponse fetchAudiosOfCustomer() {
+    public ResponseEntity<FetchAudiosResponse> fetchAudiosOfCustomer() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         HashMap<String, List<String>> audios = playerService.getAudiosUploadedBy(currentPrincipalName);
@@ -40,24 +43,13 @@ public class PlayerController {
         }
         String message = "Get all the audios associated with a customer";
         FetchAudiosResponse response = new FetchAudiosResponse(audios, message);
-        return response;
-
-        /*String message = "Get all the audios associated with a customer";
-        List<String> audiosNameEnglish = new ArrayList<>();
-        audiosNameEnglish.add("Celpip_9_T1_11");
-        audiosNameEnglish.add("Celpip_9_T1_12");
-        audiosNameEnglish.add("Celpip_9_T1_13");
-        List<String> audiosNameFrench = new ArrayList<>();
-        audiosNameFrench.add("TEF_9_T1_1");
-        HashMap<String, List<String>> audios = new HashMap<>();
-        audios.put("EnglishA1", audiosNameEnglish);
-        audios.put("FrenchB2", audiosNameFrench);
-        FetchAudiosResponse response = new FetchAudiosResponse(audios, message);
-        return response;*/
+        response.setStatus(HttpStatus.OK.value());
+        response.setTimeStamp(System.currentTimeMillis());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/playlist/{playlist}/audio/{audio}")
-    public PlayAudioResponse playAudio(@PathVariable String playlist, @PathVariable String audio) {
+    public ResponseEntity<PlayAudioResponse> playAudio(@PathVariable String playlist, @PathVariable String audio) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         String audioObjectUrl = playerService.getAudioObjectUrlWith(currentPrincipalName, playlist, audio);
@@ -69,11 +61,13 @@ public class PlayerController {
         // String subtitleObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.srt.srt";
         String message = "Get the audio and subtitle object URL successfully";
         PlayAudioResponse response = new PlayAudioResponse(audioObjectUrl, subtitleObjectUrl, message);
-        return response;
+        response.setStatus(HttpStatus.OK.value());
+        response.setTimeStamp(System.currentTimeMillis());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/audio")
-    public UploadAudioResponse uploadAudio(@ModelAttribute UploadAudioRequest uploadAudioRequest) throws IOException {
+    public ResponseEntity<UploadAudioResponse> uploadAudio(@ModelAttribute UploadAudioRequest uploadAudioRequest) throws IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         String customizedUsername = currentPrincipalName.replace("@", "_");
@@ -90,15 +84,20 @@ public class PlayerController {
         String transcriptionJobName = customizedUsername + "_" + playlist + "_" + mediaFileName.replace(".", "_");
         String srtUrl = generateTranscriptFromMedia(audioUrl, transcriptionJobName, targetLanguage, outputFilePath);
         logger.info("Speech to Text Completed and AWS Transcribe URL: " + srtUrl);
-        playerService.createNewRecordWith(currentPrincipalName,
-                mediaFileName, audioUrl,
-                transcriptFileName, srtUrl,
-                playlist);
+        String existingAudioUrl = playerService.getAudioObjectUrlWith(currentPrincipalName, playlist, mediaFileName);
+        if (existingAudioUrl.length() == 0) {
+            playerService.createNewRecordWith(currentPrincipalName,
+                    mediaFileName, audioUrl,
+                    transcriptFileName, srtUrl,
+                    playlist);
+        }
         logger.info("Add the new audio and subtitle to the database successfully.");
         removeFileFromLocalPool(audioFile);
         String message = "Upload the audio and generate transcription successfully";
         UploadAudioResponse response = new UploadAudioResponse(mediaFileName, transcriptFileName, message);
-        return response;
+        response.setStatus(HttpStatus.OK.value());
+        response.setTimeStamp(System.currentTimeMillis());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     private String saveFiletoAWSS3(String key, File audioFile) throws IOException {

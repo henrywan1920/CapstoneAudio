@@ -5,6 +5,8 @@ public class PlayAudioResponse {
     private String audio;
     private String subtitle;
     private String message;
+    private int status;
+    private long timeStamp;
 
     public PlayAudioResponse(String audio, String subtitle, String message) {
         this.audio = audio;
@@ -36,12 +38,29 @@ public class PlayAudioResponse {
         this.message = message;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
     @Override
     public String toString() {
         return "PlayAudioResponse{" +
                 "audio='" + audio + '\'' +
                 ", subtitle='" + subtitle + '\'' +
                 ", message='" + message + '\'' +
+                ", status=" + status +
+                ", timeStamp=" + timeStamp +
                 '}';
     }
 }

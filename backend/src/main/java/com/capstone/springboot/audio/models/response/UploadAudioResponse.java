@@ -4,6 +4,8 @@ public class UploadAudioResponse {
     private String mediaFileName;
     private String transcriptFileName;
     private String message;
+    private int status;
+    private long timeStamp;
 
     public UploadAudioResponse() {
     }
@@ -38,12 +40,30 @@ public class UploadAudioResponse {
         this.transcriptFileName = transcriptFileName;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
     @Override
     public String toString() {
         return "UploadAudioResponse{" +
                 "mediaFileName='" + mediaFileName + '\'' +
                 ", transcriptFileName='" + transcriptFileName + '\'' +
                 ", message='" + message + '\'' +
+                ", status=" + status +
+                ", timeStamp=" + timeStamp +
                 '}';
     }
 }
