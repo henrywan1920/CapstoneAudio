@@ -2,7 +2,6 @@ package com.capstone.springboot.audio.rest;
 
 import com.capstone.springboot.audio.exception.NoAudioFoundException;
 import com.capstone.springboot.audio.models.request.UploadAudioRequest;
-import com.capstone.springboot.audio.models.response.BasicResponse;
 import com.capstone.springboot.audio.models.response.FetchAudiosResponse;
 import com.capstone.springboot.audio.models.response.PlayAudioResponse;
 import com.capstone.springboot.audio.models.response.UploadAudioResponse;

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Buffer } from 'buffer';
 
 const SingleFileUpload = () => {
    const [selectedFile, setSelectedFile] = useState(null);
@@ -16,11 +17,11 @@ const SingleFileUpload = () => {
       formData.append("content", selectedFile);
       formData.append("playlist", "EnglishA1");
       formData.append("mediaFileName", "Celpip_9_T1_11.mp3");
-      formData.append("transcriptFileName", "Celpip_9_T1_11.srt");
+      formData.append("transcriptFileName", "Celpip_9_T1_11.srt.srt");
       formData.append("language", "English");
 
       try {
-        let username = 'john573@gmail.com';
+        let username = 'tom678@gmail.com';
         let password = 'audio123';
          // Replace this URL with your server-side endpoint for handling file uploads
          const response = await fetch("http://localhost:5000/api/audio", {
@@ -28,7 +29,7 @@ const SingleFileUpload = () => {
             credentials: 'include',
             mode: 'no-cors',
             headers: {
-                'Authorization': 'Basic ' + window.btoa(username + ':' + password),
+                'Authorization': 'Basic ' + Buffer.from(username + ':' + password).toString('base64'),
                 'Content-Type': 'application/json'
             },
             body: formData
