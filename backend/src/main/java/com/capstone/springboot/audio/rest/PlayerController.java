@@ -1,5 +1,6 @@
 package com.capstone.springboot.audio.rest;
 
+import com.capstone.springboot.audio.exception.NoAudioFoundException;
 import com.capstone.springboot.audio.models.request.UploadAudioRequest;
 import com.capstone.springboot.audio.models.response.FetchAudiosResponse;
 import com.capstone.springboot.audio.models.response.PlayAudioResponse;
@@ -31,7 +32,17 @@ public class PlayerController {
 
     @GetMapping("/audios")
     public FetchAudiosResponse fetchAudiosOfCustomer() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        HashMap<String, List<String>> audios = playerService.getAudiosUploadedBy(currentPrincipalName);
+        if (audios.isEmpty()) {
+            throw new NoAudioFoundException(String.format("No audios found with the user %s", currentPrincipalName));
+        }
         String message = "Get all the audios associated with a customer";
+        FetchAudiosResponse response = new FetchAudiosResponse(audios, message);
+        return response;
+
+        /*String message = "Get all the audios associated with a customer";
         List<String> audiosNameEnglish = new ArrayList<>();
         audiosNameEnglish.add("Celpip_9_T1_11");
         audiosNameEnglish.add("Celpip_9_T1_12");
@@ -42,13 +53,20 @@ public class PlayerController {
         audios.put("EnglishA1", audiosNameEnglish);
         audios.put("FrenchB2", audiosNameFrench);
         FetchAudiosResponse response = new FetchAudiosResponse(audios, message);
-        return response;
+        return response;*/
     }
 
     @GetMapping("/playlist/{playlist}/audio/{audio}")
     public PlayAudioResponse playAudio(@PathVariable String playlist, @PathVariable String audio) {
-        String audioObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.mp3";
-        String subtitleObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.srt.srt";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        String audioObjectUrl = playerService.getAudioObjectUrlWith(currentPrincipalName, playlist, audio);
+        if (audioObjectUrl.length() == 0) {
+            throw new NoAudioFoundException(String.format("No audio (%s) found in the playlist (%s): ", audio, playlist));
+        }
+        String subtitleObjectUrl = audioObjectUrl.replace(".mp3", ".srt.srt");
+        // String audioObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.mp3";
+        // String subtitleObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.srt.srt";
         String message = "Get the audio and subtitle object URL successfully";
         PlayAudioResponse response = new PlayAudioResponse(audioObjectUrl, subtitleObjectUrl, message);
         return response;

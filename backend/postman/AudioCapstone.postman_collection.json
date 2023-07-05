@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"john\",\n    \"email\": \"john456@gmail.com\",\n    \"password\": \"audio123\",\n    \"role\": \"temp\"\n}",
+					"raw": "{\n    \"username\": \"john456@gmail.com\",\n    \"password\": \"audio123\",\n    \"role\": \"temp\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -39,11 +39,14 @@
 		{
 			"name": "LocalSignup",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"john\",\n    \"email\": \"john456@gmail.com\",\n    \"password\": \"audio123\",\n    \"role\": \"temp\"\n}",
+					"raw": "{\n    \"username\": \"john574@gmail.com\",\n    \"password\": \"audio123\",\n    \"role\": \"temp\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -119,7 +122,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"john\"\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -166,7 +169,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"john\"\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -182,6 +185,94 @@
 					"port": "5000",
 					"path": [
 						"dummy",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LocalLoginWithoutAuth",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "default",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "default",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LocalLogin",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "john573@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "audio123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
 						"user",
 						"login"
 					]
@@ -223,6 +314,82 @@
 						"EnglishA1",
 						"audio",
 						"Celpip_9_T1_11.mp3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LocalPlayAudio",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "john574@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "audio123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/playlist/EnglishA1/audio/Celpip_9_T1_11.mp3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"playlist",
+						"EnglishA1",
+						"audio",
+						"Celpip_9_T1_11.mp3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LocalPlayAudioNoAudioFound",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "john574@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "audio123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/playlist/EnglishA1/audio/Celpip_9_T1.mp3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"playlist",
+						"EnglishA1",
+						"audio",
+						"Celpip_9_T1.mp3"
 					]
 				}
 			},
@@ -277,7 +444,7 @@
 					"basic": [
 						{
 							"key": "username",
-							"value": "john456@gmail.com",
+							"value": "john573@gmail.com",
 							"type": "string"
 						},
 						{
@@ -307,6 +474,66 @@
 					"port": "5000",
 					"path": [
 						"dummy",
+						"api",
+						"audio"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LocalFileUpload",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "john573@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "audio123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "playlist",
+							"value": "EnglishA2",
+							"type": "text"
+						},
+						{
+							"key": "fileName",
+							"value": "Celpip_9_T1_11.mp3",
+							"type": "text"
+						},
+						{
+							"key": "language",
+							"value": "English",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "XXXXXXXXXXXXX",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/audio",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
 						"api",
 						"audio"
 					]
@@ -369,7 +596,7 @@
 					"basic": [
 						{
 							"key": "username",
-							"value": "john456@gmail.com",
+							"value": "john574@gmail.com",
 							"type": "string"
 						},
 						{
@@ -390,6 +617,41 @@
 					"port": "5000",
 					"path": [
 						"dummy",
+						"api",
+						"audios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LocalFetchAll",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "john574@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "audio123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/audios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
 						"api",
 						"audios"
 					]

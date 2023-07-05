@@ -16,6 +16,9 @@ public class Transcript {
     @Column(name = "url")
     private String url;
 
+    public Transcript() {
+    }
+
     public Transcript(String name, String url) {
         this.name = name;
         this.url = url;

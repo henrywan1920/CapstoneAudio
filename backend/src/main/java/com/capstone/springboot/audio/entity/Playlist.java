@@ -18,6 +18,9 @@ public class Playlist {
     @Column(name = "time_created")
     private Timestamp timeCreated;
 
+    public Playlist() {
+    }
+
     public Playlist(String name, Timestamp timeCreated) {
         this.name = name;
         this.timeCreated = timeCreated;

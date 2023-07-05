@@ -7,6 +7,7 @@ import com.capstone.springboot.audio.entity.Audio;
 import com.capstone.springboot.audio.entity.Player;
 import com.capstone.springboot.audio.entity.Playlist;
 import com.capstone.springboot.audio.entity.Transcript;
+import com.capstone.springboot.audio.exception.NoAudioFoundException;
 import com.capstone.springboot.audio.rest.PlayerController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
@@ -44,6 +48,31 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
+    public HashMap<String, List<String>> getAudiosUploadedBy(String username) {
+        HashMap<String, List<String>> audios = new HashMap<>();
+        List<Player> recordsAssociatedWithACustomer = playerRepository.findByUsername(username);
+        for (Player record : recordsAssociatedWithACustomer) {
+            int playlistId = record.getPlaylistId();
+            Playlist playlist = playlistRepository.findById(playlistId).get();
+            String playlistName = playlist.getName();
+            int audioId = record.getAudioId();
+            Audio audio = audioRepository.findById(audioId).get();
+            String audioName = audio.getName();
+            if (audios.containsKey(playlistName)) {
+                List<String> audioNamesInAPlaylist = audios.get(playlistName);
+                audioNamesInAPlaylist.add(audioName);
+                audios.put(playlistName, audioNamesInAPlaylist);
+            }
+            else {
+                List<String> audioNamesInAPlaylist = new ArrayList<>();
+                audioNamesInAPlaylist.add(audioName);
+                audios.put(playlistName, audioNamesInAPlaylist);
+            }
+        }
+        return audios;
+    }
+
+    @Override
     public void createNewRecordWith(String username,
                                     String audioName, String audioUrl,
                                     String transcriptName, String transcriptUrl,
@@ -55,8 +84,29 @@ public class PlayerServiceImpl implements PlayerService {
         int audioId = theAudio.getId();
         int transcriptId = theTranscript.getId();
         int playlistId = thePlaylist.getId();
+        playerRepository.findAll();
         Player thePlayer = playerRepository.save(new Player(username, audioId, transcriptId, playlistId));
     }
+
+    @Override
+    public String getAudioObjectUrlWith(String username, String playlist, String audioFileName) {
+        List<Playlist> playlistObjects = playlistRepository.findPlaylistByName(playlist);
+        for (Playlist playlistObject : playlistObjects) {
+            int playlistId = playlistObject.getId();
+            List<Player> players = playerRepository.findByUsernameAndPlaylistId(username, playlistId);
+            for (Player player : players) {
+                int audioId = player.getAudioId();
+                logger.info("Audio id: " + audioId);
+                Audio audio = audioRepository.findById(audioId).get();
+                if (audio.getName().equals(audioFileName)) {
+                    return audio.getUrl();
+                }
+            }
+        }
+        logger.info("No audio file found");
+        return "";
+    }
+
 
     @Override
     public String putObject(File audioFile, String key) {

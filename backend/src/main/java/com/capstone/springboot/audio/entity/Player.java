@@ -23,6 +23,9 @@ public class Player {
     @Column(name = "playlist_id")
     private int playlistId;
 
+    public Player() {
+    }
+
     public Player(String username, int audioId, int transcriptId, int playlistId) {
         this.username = username;
         this.audioId = audioId;
