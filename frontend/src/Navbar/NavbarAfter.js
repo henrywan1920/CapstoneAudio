@@ -24,12 +24,9 @@ const Navbar = () => {
           <NavLink to="/contact" activeStyle>
             Contact Us
           </NavLink>
-          <NavLink to="/signup" activeStyle>
-            Register
-          </NavLink>
         </NavMenu>
         <NavBtn>
-          <NavBtnLink to="/login">Login</NavBtnLink>
+          <NavBtnLink to="/logout">Logout</NavBtnLink>
         </NavBtn>
       </Nav>
     </>

@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Container,
-  Row,
-  Column,
-  FooterLink,
-  Heading,
-} from "./FooterStyle";
+import { Box, Container, Row, Column, FooterLink } from "./FooterStyle";
 
 const Footer = () => {
   return (
@@ -29,7 +22,7 @@ const Footer = () => {
         <h5
           style={{ color: "#F5EFE7", textAlign: "center", margin: "5px 0px" }}
         >
-          &copy; 2023 AUDIO.IO BY HUI WAN, STELLA LI & JINGXU LAN
+          &copy; 2023 AUD.IO BY HUI WAN, STELLA LI & JINGXU LAN
         </h5>
       </Container>
     </Box>

@@ -7,8 +7,8 @@ export const Nav = styled.nav`
   height: 70px;
   display: flex;
   justify-content: space-between;
-  padding: 0.2rem calc((100vw - 1000px) / 2);
-  z-index: 12;
+  padding: 5px 150px;
+  z-index: 99;
 `;
 
 export const NavLink = styled(Link)`
@@ -18,7 +18,7 @@ export const NavLink = styled(Link)`
   text-decoration: none;
   font-size: 20px;
   font-weight: bold;
-  padding: 0 1rem;
+  padding: 0 15px;
   height: 100%;
   cursor: pointer;
   &.active {
@@ -29,33 +29,18 @@ export const NavLink = styled(Link)`
 export const Bars = styled(FaBars)`
   display: none;
   color: #d8c4b6;
-  @media screen and (max-width: 768px) {
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate(-100%, 75%);
-    font-size: 2rem;
-    cursor: pointer;
-  }
 `;
 
 export const NavMenu = styled.div`
   display: flex;
   align-items: center;
   margin-right: -24px;
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
 `;
 
 export const NavBtn = styled.nav`
   display: flex;
   align-items: center;
   margin-right: 24px;
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
 `;
 
 export const NavBtnLink = styled(Link)`
@@ -68,12 +53,9 @@ export const NavBtnLink = styled(Link)`
   font-weight: bold;
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
   text-decoration: none;
-  /* Second Nav */
   margin-left: 24px;
   &:hover {
-    transition: all 0.2s ease-in-out;
     background: #fff;
     color: #808080;
   }

@@ -25,6 +25,7 @@ code {
     monospace;
 }
 
+/*Home page*/
 #hp-container {
   display: flex;
   padding: 0 150px;
@@ -32,7 +33,7 @@ code {
 }
 
 .hp-intro1 {
-  flex: 1;
+  flex: 2;
   align-items: start;
   font-style: EuclidCircularA;
   color: #0c134f;
@@ -45,9 +46,33 @@ code {
 }
 
 .hp-intro2 {
-  flex: 2;
+  flex: 3;
   padding: 50px;
 }
+
+.homeImg {
+  width: 600px;
+}
+/*Home page done*/
+/*Contact page*/
+#contact-page {
+  display: flex;
+  padding: 30px 50px;
+  margin-bottom: 110px;
+}
+
+.contact1 {
+  flex: 1;
+  margin: auto 50px;
+}
+
+.contact2 {
+  flex: 2;
+  margin: auto;
+  padding: 0 150px;
+}
+
+/*Contact page done*/
 
 .backdrop {
   position: fixed;
