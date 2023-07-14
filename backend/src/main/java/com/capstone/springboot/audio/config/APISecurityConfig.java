@@ -40,7 +40,6 @@ public class APISecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         http.authorizeHttpRequests(configurer ->
                 configurer
                         .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
@@ -53,6 +52,9 @@ public class APISecurityConfig {
 
         // use HTTP Basic authentication
         http.httpBasic(Customizer.withDefaults());
+
+        // disable CORS
+        http.cors(AbstractHttpConfigurer::disable);
 
         // disable Cross Site Request Forgery (CSRF)
         // in general, not required for stateless REST APIs that use POST, PUT, DELETE and/or PATCH
