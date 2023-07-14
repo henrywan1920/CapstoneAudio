@@ -1,7 +1,10 @@
+const baseURL = "http://localhost:5000";
+const signupURL = baseURL + "/user/register";
+
 const Signup = () => {
     return ( <>
         <h1 className="subTitle">Sign up</h1>
-        <form className="form">
+        <form action={ signupURL } className="form" method="POST">
             <div className="field">
                 <label htmlFor="username">Username:</label>
                 <input type="text" name="username" id="username"></input>
@@ -20,7 +23,7 @@ const Signup = () => {
                     <label htmlFor="terms">I agree to the <a href="www.google.com">terms</a></label>
                 </div>
                 <div>
-                    <button>Submit</button>
+                    <input id="signupRequest" type="submit" value="Submit"></input>
                 </div>
             </div>
         </form>

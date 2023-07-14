@@ -43,10 +43,15 @@ public class APISecurityConfig {
         http.authorizeHttpRequests(configurer ->
                 configurer
                         .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/dummy/user/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/login").hasAnyRole("TEMP", "VIP", "SVIP")
                         .requestMatchers(HttpMethod.GET, "/api/audios").hasAnyRole("TEMP", "VIP", "SVIP")
                         .requestMatchers(HttpMethod.POST, "/api/audio").hasAnyRole("TEMP", "VIP", "SVIP")
                         .requestMatchers(HttpMethod.GET, "/playlist/{playlist}/audio/{audio}").hasAnyRole("TEMP", "VIP", "SVIP")
+                        .requestMatchers(HttpMethod.POST, "/dummy/user/login").hasAnyRole("TEMP", "VIP", "SVIP")
+                        .requestMatchers(HttpMethod.GET, "/dummy/api/audios").hasAnyRole("TEMP", "VIP", "SVIP")
+                        .requestMatchers(HttpMethod.POST, "/dummy/api/audio").hasAnyRole("TEMP", "VIP", "SVIP")
+                        .requestMatchers(HttpMethod.GET, "/dummy/playlist/{playlist}/audio/{audio}").hasAnyRole("TEMP", "VIP", "SVIP")
                         .anyRequest().authenticated()
         );
 
