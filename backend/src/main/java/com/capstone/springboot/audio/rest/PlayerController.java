@@ -41,9 +41,9 @@ public class PlayerController {
             throw new NoAudioFoundException(String.format("No audios found with the user %s", currentPrincipalName));
         }
         String message = "Get all the audios associated with a customer";
-        FetchAudiosResponse response = new FetchAudiosResponse(audios, message);
-        response.setStatus(HttpStatus.OK.value());
-        response.setTimeStamp(System.currentTimeMillis());
+        int status = HttpStatus.OK.value();
+        long timestamp = System.currentTimeMillis();
+        FetchAudiosResponse response = new FetchAudiosResponse(status, message, timestamp, audios);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -59,7 +59,7 @@ public class PlayerController {
         // String audioObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.mp3";
         // String subtitleObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.srt.srt";
         String message = "Get the audio and subtitle object URL successfully";
-        PlayAudioResponse response = new PlayAudioResponse(audioObjectUrl, subtitleObjectUrl, message);
+        PlayAudioResponse response = new PlayAudioResponse(message, audioObjectUrl, subtitleObjectUrl);
         response.setStatus(HttpStatus.OK.value());
         response.setTimeStamp(System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -93,7 +93,7 @@ public class PlayerController {
         logger.info("Add the new audio and subtitle to the database successfully.");
         removeFileFromLocalPool(audioFile);
         String message = "Upload the audio and generate transcription successfully";
-        UploadAudioResponse response = new UploadAudioResponse(mediaFileName, transcriptFileName, message);
+        UploadAudioResponse response = new UploadAudioResponse(message, mediaFileName, transcriptFileName);
         response.setStatus(HttpStatus.OK.value());
         response.setTimeStamp(System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.OK);

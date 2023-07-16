@@ -1,15 +1,18 @@
 package com.capstone.springboot.audio.rest;
 
+import com.capstone.springboot.audio.models.request.UserLoginRequest;
 import com.capstone.springboot.audio.models.request.UserRegisterRequest;
 import com.capstone.springboot.audio.models.response.BasicResponse;
-import com.capstone.springboot.audio.models.response.ErrorResponse;
+import com.capstone.springboot.audio.models.response.LoginResponse;
 import com.capstone.springboot.audio.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -36,11 +39,32 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<BasicResponse> userLogin() {
-        BasicResponse response = new BasicResponse("Login successfully");
-        response.setStatus(HttpStatus.OK.value());
+    public ResponseEntity<LoginResponse> userLogin(@ModelAttribute UserLoginRequest userLoginRequest) {
+        String username = userLoginRequest.getUsername();
+        String password = userLoginRequest.getPassword();
+        String message = "";
+        int status = 0;
+        HttpStatusCode httpStatusCode = HttpStatus.OK;
+
+        if (!userService.checkUserExistsBy(username)) {
+            throw new UsernameNotFoundException(String.format("Username %s not found", username));
+        }
+
+        if (userService.checkUsernamePassword(username, password)) {
+            message = "Login successfully";
+            status = HttpStatus.OK.value();
+        }
+        else {
+            message = "Username and password not match";
+            status = HttpStatus.UNAUTHORIZED.value();
+            httpStatusCode = HttpStatus.UNAUTHORIZED;
+        }
+
+        LoginResponse response = new LoginResponse(message);
+        response.setStatus(status);
         response.setTimeStamp(System.currentTimeMillis());
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        response.setUsername(username);
+        return new ResponseEntity<>(response, httpStatusCode);
     }
 
 }

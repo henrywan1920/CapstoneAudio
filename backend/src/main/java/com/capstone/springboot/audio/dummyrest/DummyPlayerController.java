@@ -27,9 +27,9 @@ public class DummyPlayerController {
         HashMap<String, List<String>> audios = new HashMap<>();
         audios.put("EnglishA1", audiosNameEnglish);
         audios.put("FrenchB2", audiosNameFrench);
-        FetchAudiosResponse response = new FetchAudiosResponse(audios, message);
-        response.setStatus(HttpStatus.OK.value());
-        response.setTimeStamp(System.currentTimeMillis());
+        int status = HttpStatus.OK.value();
+        long timeStamp = System.currentTimeMillis();
+        FetchAudiosResponse response = new FetchAudiosResponse(status, message, timeStamp, audios);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -38,7 +38,7 @@ public class DummyPlayerController {
         String message = "Upload the audio successfully";
         String mediaFileName = "Celpip_9_T1_11.mp3";
         String transcriptFileName = "Celpip_9_T1_11.srt.srt";
-        UploadAudioResponse response = new UploadAudioResponse(mediaFileName, transcriptFileName, message);
+        UploadAudioResponse response = new UploadAudioResponse(message, mediaFileName, transcriptFileName);
         response.setStatus(HttpStatus.OK.value());
         response.setTimeStamp(System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -49,7 +49,7 @@ public class DummyPlayerController {
         String audioObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/anna123_outlook.com/EnglishA1/Celpip_9_T1_11.mp3";
         String subtitleObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/anna123_outlook.com/EnglishA1/Celpip_9_T1_11.srt.srt";
         String message = "Get the audio and subtitle url successfully";
-        PlayAudioResponse response = new PlayAudioResponse(audioObjectUrl, subtitleObjectUrl, message);
+        PlayAudioResponse response = new PlayAudioResponse(message, audioObjectUrl, subtitleObjectUrl);
         response.setStatus(HttpStatus.OK.value());
         response.setTimeStamp(System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.OK);

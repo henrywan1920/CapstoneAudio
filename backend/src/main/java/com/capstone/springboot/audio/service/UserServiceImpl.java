@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    UserDetailsManager userDetailsManager;
+    JdbcUserDetailsManager jdbcUserDetailsManager;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean findUserByName(String username) {
-        return userDetailsManager.userExists(username);
+    public boolean checkUserExistsBy(String username) {
+        return jdbcUserDetailsManager.userExists(username);
     }
 
     @Override
@@ -55,7 +55,14 @@ public class UserServiceImpl implements UserService {
         // password must be encoded with Bcrypt
         String encodedPassword = passwordEncoder.encode(password);
         User user = new User(username, encodedPassword, authorities);
-        userDetailsManager.createUser(user);
+        jdbcUserDetailsManager.createUser(user);
+    }
+
+    @Override
+    public boolean checkUsernamePassword(String username, String rawPassword) {
+        UserDetails userDetails = jdbcUserDetailsManager.loadUserByUsername(username);
+        String encodedPassword = userDetails.getPassword();
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
     /*@Override

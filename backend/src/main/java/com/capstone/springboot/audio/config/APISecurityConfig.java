@@ -27,7 +27,7 @@ public class APISecurityConfig {
 
     // add support for JDBC ... no more hardcoded users :-)
     @Bean
-    public UserDetailsManager userDetailsManager(DataSource dataSource) {
+    public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
         return new JdbcUserDetailsManager(dataSource);
     }
 
@@ -42,13 +42,9 @@ public class APISecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(configurer ->
                 configurer
-                        .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/dummy/user/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/user/login").hasAnyRole("TEMP", "VIP", "SVIP")
                         .requestMatchers(HttpMethod.GET, "/api/audios").hasAnyRole("TEMP", "VIP", "SVIP")
                         .requestMatchers(HttpMethod.POST, "/api/audio").hasAnyRole("TEMP", "VIP", "SVIP")
                         .requestMatchers(HttpMethod.GET, "/playlist/{playlist}/audio/{audio}").hasAnyRole("TEMP", "VIP", "SVIP")
-                        .requestMatchers(HttpMethod.POST, "/dummy/user/login").hasAnyRole("TEMP", "VIP", "SVIP")
                         .requestMatchers(HttpMethod.GET, "/dummy/api/audios").hasAnyRole("TEMP", "VIP", "SVIP")
                         .requestMatchers(HttpMethod.POST, "/dummy/api/audio").hasAnyRole("TEMP", "VIP", "SVIP")
                         .requestMatchers(HttpMethod.GET, "/dummy/playlist/{playlist}/audio/{audio}").hasAnyRole("TEMP", "VIP", "SVIP")

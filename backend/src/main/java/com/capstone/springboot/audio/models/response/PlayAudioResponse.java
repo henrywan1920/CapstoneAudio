@@ -1,17 +1,23 @@
 package com.capstone.springboot.audio.models.response;
 
-public class PlayAudioResponse {
+public class PlayAudioResponse extends BasicResponse {
 
     private String audio;
     private String subtitle;
-    private String message;
-    private int status;
-    private long timeStamp;
 
-    public PlayAudioResponse(String audio, String subtitle, String message) {
+    public PlayAudioResponse() {
+    }
+
+    public PlayAudioResponse(String message, String audio, String subtitle) {
+        super(message);
         this.audio = audio;
         this.subtitle = subtitle;
-        this.message = message;
+    }
+
+    public PlayAudioResponse(int status, String message, long timeStamp, String audio, String subtitle) {
+        super(status, message, timeStamp);
+        this.audio = audio;
+        this.subtitle = subtitle;
     }
 
     public String getAudio() {
@@ -30,37 +36,15 @@ public class PlayAudioResponse {
         this.subtitle = subtitle;
     }
 
-    public String getMessage() {
-        return message;
-    }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public long getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
-    }
     @Override
     public String toString() {
         return "PlayAudioResponse{" +
                 "audio='" + audio + '\'' +
                 ", subtitle='" + subtitle + '\'' +
-                ", message='" + message + '\'' +
-                ", status=" + status +
-                ", timeStamp=" + timeStamp +
+                ", message='" + super.getMessage() + '\'' +
+                ", status=" + super.getStatus() +
+                ", timeStamp=" + super.getTimeStamp() +
                 '}';
     }
 }

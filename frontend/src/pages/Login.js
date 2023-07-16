@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Buffer } from 'buffer';
 
 const baseURL = "http://localhost:5000";
 const loginURL = baseURL + "/user/login";
@@ -23,9 +22,12 @@ const Login = () => {
             method: 'POST',
             credentials: 'include',
             headers: {
-                Authorization: 'Basic ' + Buffer.from(loginForm.username + ':' + loginForm.password).toString('base64')
+                "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"                
             },
-            body: null,
+            body: {
+                "username": loginForm.username,
+                "password": loginForm.password
+            }
         })
         .then((response) => {
             const responseData = response.json();
