@@ -1,22 +1,60 @@
+import { useState } from "react";
 const baseURL = "http://localhost:5000";
 const signupURL = baseURL + "/user/register";
 
+
 const Signup = () => {
+
+    const [showText, setShowText] =useState(false);
+
+    const [userData, setUserData] = useState({
+        password: '',
+        rePassword: ''
+    });
+    const handleInputChange = (e) => {
+        const {name, value} = e.target;
+        setUserData({...userData, [name]: value})
+    }
+
+
+    const handleSignup = async () => {
+
+        if(userData.password !== userData.rePassword){
+            setShowText(true);
+            return;
+        }
+
+        const userLoginDataJSON = JSON.stringify(userData);
+        console.log(userLoginDataJSON);
+    
+        fetch(signupURL, {
+            method: 'POST',
+            credentials: 'include'
+        })
+        .then((response) => {
+            const responseData = response.json();
+            console.log(responseData.message);
+        })
+        .catch((error) => console.log(error));
+    }
+
     return ( <>
         <h1 className="subTitle">Sign up</h1>
-        <form action={ signupURL } className="form" method="POST">
+        <form action={ signupURL } className="form" onSubmit={handleSignup} method="POST">
             <div className="field">
                 <label htmlFor="username">Username:</label>
-                <input type="text" name="username" id="username"></input>
+                <input type="email" name="username" id="username"></input>
             </div>        
             <div className="field">
                 <label htmlFor="password">Password:</label>
-                <input type="password" name="password" id="password"></input>
+                <input type="password" name="password" id="password" value={userData.password} onChange={handleInputChange}></input>
             </div>
             <div className="field">
-                <label htmlFor="re-password">Re-enter password:</label>
-                <input type="re-password" name="re-password" id="re-password"></input>
+                <label htmlFor="rePassword">Re-enter password:</label>
+                <input type="password" name="rePassword" id="rePassword" value={userData.rePassword}
+                onChange={handleInputChange}></input>
             </div>
+            {showText && <h2 color="red">Make sure you enter the same password twice</h2>}
             <div className="submit">
                 <div>
                     <input type="checkbox" id="terms" name="terms"></input>
