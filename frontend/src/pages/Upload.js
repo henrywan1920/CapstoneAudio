@@ -1,41 +1,92 @@
 import React, {useState} from "react";
+import { Buffer } from 'buffer';
 const Upload = () => {
+    const[fileData, setFileData] = useState({
+        playlist: 'default',
+        fileName: "",
+        language: "English",
+        content: null
+    })
 
-    const [selectedFile, setSelectedFile] = useState(false);
+    const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFileData((prevFileData) => ({
+      ...prevFileData,
+      [name]: value,
+    }));
+  };
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        setSelectedFile(file);
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setFileData((prevFileData) => ({
+      ...prevFileData,
+      fileName: file.name,
+      content: file,
+    }));
+  };
+
+
+    const handleSubmit = (event) => {
+    event.preventDefault();
+    const { playlist, fileName, language, content } = fileData;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const fileContent = event.target.result;
+
+      const requestBody = {
+        playlist,
+        fileName: fileName,
+        language,
+        content: fileContent,
+      };
+      console.log(requestBody);
+      let username = 'tom678@gmail.com';
+      let password = 'audio123';
+      fetch('http://localhost:5000/api/audio', {
+        
+        method: 'POST',
+        body: JSON.stringify(requestBody),
+        headers: {
+          Authorization: 'Basic ' + Buffer.from(username + ':' + password).toString('base64'),
+          'Content-Type': 'application/json'
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data); // Handle the response data
+        })
+        .catch((error) => {
+          console.error(error); // Handle any error that occurred during the request
+        });
     };
 
-    const handleUpload = () => {
-        if (selectedFile) {
-        const formData = new FormData();
-        formData.append('file', selectedFile);
+    reader.readAsDataURL(content);
+  };
 
-        // fetch('/upload', {
-        //     method: 'POST',
-        //     body: formData
-        // })
-        //     .then(response => {
-        //     // upload successfully
-        //     console.log('文件上传成功');
-        //     })
-        //     .catch(error => {
-        //     // upload failed
-        //     console.error('文件上传失败:', error);
-        //     });
-        // }
-        };
-    }
+  return (
+    <div>
+      <h1 className="subTitle">Upload Audio</h1>
 
-    return ( 
-        <>
-        <h2>Please upload your audio file</h2>
-            <input type="file" onChange={handleFileChange}></input><br></br>
-            <button onClick={handleUpload}>Upload</button>
-        </>
-     );
+      <form className="form" onSubmit={handleSubmit}>
+        <div className="field">
+            <label htmlFor="playlist">Playlist:</label>
+            <input
+            type="text"
+            id="playlist"
+            name="playlist"
+            value={fileData.playlist}
+            onChange={handleInputChange}
+            />
+        </div>
+        <div className="field">
+            <label htmlFor="audioFile">Select Audio File:</label>
+            <input type="file" id="audioFile" onChange={handleFileChange} /><br/><br/>
+        </div>
+        <input type="submit" value="Upload" />
+      </form>
+    </div>
+  );
 }
- 
+
 export default Upload;

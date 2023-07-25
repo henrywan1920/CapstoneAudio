@@ -1,25 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
+import { Buffer } from 'buffer';
 
 const Login = () => {
-
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
     
+    const [userData, setUserData] = useState({
+        username: '',
+        password: ''
+    });
+    
+    const handleInputChange = (e) => {
+        const {name, value} = e.target;
+        setUserData({...userData, [name]: value})
+    }
+
     function handleLogin (e) { 
         e.preventDefault();
-        const userInfo = { username, password };
-
-        // fetch('http://localhost:8000/user/register', {
-        //     method: 'POST',
-        //     headers: {},
-        //     body: JSON.stringify(userInfo)
-        // }).then(() => {
-        //     console.log('new userInfo added');
-        //     console.log(userInfo);
-        // })
+        const jsonData = JSON.stringify(userData);
+        console.log(jsonData);
         
-        console.log(userInfo);
+        try {
+            let username = 'tom678@gmail.com';
+            let password = 'audio123';
+            const response = fetch('http://localhost:5000/dummy/user/login', {
+                method: 'POST',
+                credentials: 'include',
+                mode: 'no-cors',
+                headers: {
+                Authorization: 'Basic ' + Buffer.from(username + ':' + password).toString('base64'),
+                'Content-Type': 'application/json'
+                },
+                body: jsonData,
+            });
+
+            if (response.ok) {
+                const responseData = response.json();
+                //happy path
+                console.log(responseData.message);
+            }else{
+                //sad path
+                console.log(response.json());
+                throw new Error('Failed to login');
+            }
+            } catch (error) {
+            console.error(error);
+            //other error
     }
+}
 
     return ( <>
 
@@ -27,13 +53,13 @@ const Login = () => {
         <form className="form" onSubmit={handleLogin}>
             <div className="field">
                 <label htmlFor="username">Username:</label>
-                <input type="text" name="username" id="username" value={username}
-                onChange={(e) => setUsername(e.target.value)}></input>
+                <input type="text" name="username" id="username" value={userData.username}
+                onChange={handleInputChange}></input>
             </div>        
             <div className="field">
                 <label htmlFor="password">Password:</label>
-                <input type="password" name="password" id="password" value={password}
-                onChange={(e) => setPassword(e.target.value)}></input>
+                <input type="password" name="password" id="password" value={userData.password}
+                onChange={handleInputChange}></input>
             </div>
             <div className="submit">
                 <div>

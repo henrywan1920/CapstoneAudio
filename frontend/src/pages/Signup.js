@@ -2,33 +2,59 @@ import { useState } from "react";
 
 const Signup = () => {
 
-    const url = "";
-
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [re_password, setRe_password] = useState('');
     const [showText, setShowText] =useState(false);
 
+    const [userData, setUserData] = useState({
+        username: '',
+        email: '',
+        password: '',
+        re_password: '',
+        role: 'temp',
+    });
+
+
+    const handleInputChange = (e) => {
+        const {name, value} = e.target;
+        setUserData({...userData, [name]: value})
+    }
 
     function handleSignup (e) { 
         e.preventDefault();
-        const userInfo = { username, email, password };
 
-        // fetch('http://localhost:8000/user/register', {
-        //     method: 'POST',
-        //     headers: {},
-        //     body: JSON.stringify(userInfo)
-        // }).then(() => {
-        //     console.log('new userInfo added');
-        //     console.log(userInfo);
-        // })
-        if(password != re_password && password != ""){
+        if(userData.password !== userData.re_password){
             setShowText(true);
-        }else{
-            setShowText(false)
+            return;
         }
-        console.log(userInfo);
+
+        setShowText(false);
+        
+        const {re_password, ...userInfo} = userData;
+
+        const jsonData = JSON.stringify(userInfo);
+        console.log(jsonData);
+
+        try {
+            const response = fetch('/user/register', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonData),
+            });
+
+            if (response.ok) {
+                const responseData = response.json();
+                //handle happy path
+                console.log(responseData.message);
+            }else{
+                //sad path
+                throw new Error('Failed to sign up');
+            }
+            } catch (error) {
+            console.error(error);
+            //other error
+    }
+        
     }
 
     return ( <>
@@ -37,24 +63,24 @@ const Signup = () => {
             <div className="field">
                 <label htmlFor="username">Username:</label>
                 <input 
-                type="text" name="username" id="username" value={username}
-                onChange={(e) => setUsername(e.target.value)}></input>
+                type="text" name="username" id="username" value={userData.username}
+                onChange={handleInputChange}></input>
             </div>
             <div className="field">
                 <label htmlFor="email">Email:</label>
                 <input 
-                type="email" name="email" id="email" value={email}
-                onChange={(e) => setEmail(e.target.value)}></input>
+                type="email" name="email" id="email" value={userData.email}
+                onChange={handleInputChange}></input>
             </div>         
             <div className="field">
                 <label htmlFor="password">Password:</label>
-                <input type="password" name="password" id="password" value={password}
-                onChange={(e) => setPassword(e.target.value)}></input>
+                <input type="password" name="password" id="password" value={userData.password}
+                onChange={handleInputChange}></input>
             </div>
             <div className="field">
                 <label htmlFor="re_password">Re-enter password:</label>
-                <input type="password" name="re_password" id="re_password" value={re_password}
-                onChange={(e) => setRe_password(e.target.value)}></input>
+                <input type="password" name="re_password" id="re_password" value={userData.re_password}
+                onChange={handleInputChange}></input>
             </div>
             {showText && <h2 color="red">Make sure you enter the same password twice</h2>}
             <div className="submit">
