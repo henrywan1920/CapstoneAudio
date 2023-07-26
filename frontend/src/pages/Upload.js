@@ -1,92 +1,62 @@
 import React, {useState} from "react";
 import { Buffer } from 'buffer';
+
+// const baseURL = "http://localhost:5000";
+const baseURL = "http://audio-transcribe-services.us-east-2.elasticbeanstalk.com";
+const fileUploadURL = baseURL + "/api/audio";
+
 const Upload = () => {
-    const[fileData, setFileData] = useState({
-        playlist: 'default',
-        fileName: "",
-        language: "English",
-        content: null
-    })
-
-    const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFileData((prevFileData) => ({
-      ...prevFileData,
-      [name]: value,
-    }));
+  const [selectedFile, setSelectedFile] = useState(null);
+  const handleFileChange = (e) => {
+     setSelectedFile(e.target.files[0]);
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setFileData((prevFileData) => ({
-      ...prevFileData,
-      fileName: file.name,
-      content: file,
-    }));
-  };
+  const handleUpload = async () => {
+     if (!selectedFile) {
+        alert("Please first select a file");
+        return;
+     }
 
+     const formData = new FormData();
+     formData.append("content", selectedFile);
+     formData.append("playlist", "FrenchB2");
+     formData.append("mediaFileName", "TEF_3_T1_L1.mp3");
+     formData.append("transcriptFileName", "TEF_3_T1_L1");
+     formData.append("language", "French");
 
-    const handleSubmit = (event) => {
-    event.preventDefault();
-    const { playlist, fileName, language, content } = fileData;
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const fileContent = event.target.result;
-
-      const requestBody = {
-        playlist,
-        fileName: fileName,
-        language,
-        content: fileContent,
-      };
-      console.log(requestBody);
-      let username = 'tom678@gmail.com';
-      let password = 'audio123';
-      fetch('http://localhost:5000/api/audio', {
-        
-        method: 'POST',
-        body: JSON.stringify(requestBody),
-        headers: {
-          Authorization: 'Basic ' + Buffer.from(username + ':' + password).toString('base64'),
-          'Content-Type': 'application/json'
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data); // Handle the response data
-        })
-        .catch((error) => {
-          console.error(error); // Handle any error that occurred during the request
+     try {
+       let username = 'anna123@outlook.com';
+       let password = 'audio123';
+        // Replace this URL with your server-side endpoint for handling file uploads
+        const response = await fetch(fileUploadURL, {
+           method: "POST",
+           credentials: 'include',
+           mode: 'no-cors',
+           headers: {
+               'Authorization': 'Basic ' + Buffer.from(username + ':' + password).toString('base64'),
+               'Content-Type': 'application/json'
+           },
+           body: formData
         });
-    };
 
-    reader.readAsDataURL(content);
+        if (response.ok) {
+           alert("File upload is  successfully");
+           console.log(response.json());
+        } else {
+           alert("Failed to upload the file due to errors");
+        }
+     } catch (error) {
+        console.error("Error while uploading the file:", error);
+        alert("Error occurred while uploading the file");
+     }
   };
 
   return (
-    <div>
-      <h1 className="subTitle">Upload Audio</h1>
-
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="field">
-            <label htmlFor="playlist">Playlist:</label>
-            <input
-            type="text"
-            id="playlist"
-            name="playlist"
-            value={fileData.playlist}
-            onChange={handleInputChange}
-            />
-        </div>
-        <div className="field">
-            <label htmlFor="audioFile">Select Audio File:</label>
-            <input type="file" id="audioFile" onChange={handleFileChange} /><br/><br/>
-        </div>
-        <input type="submit" value="Upload" />
-      </form>
-    </div>
+  <div>
+     <h1 className="subTitle">Upload Audio</h1>
+     <input type="file" onChange={handleFileChange} />
+     <button onClick={handleUpload}>Upload</button>
+  </div>
   );
-}
-
+};
 export default Upload;

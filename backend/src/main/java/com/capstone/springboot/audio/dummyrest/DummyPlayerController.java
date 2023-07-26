@@ -37,7 +37,7 @@ public class DummyPlayerController {
     public ResponseEntity<UploadAudioResponse> uploadAudio(@RequestBody UploadAudioRequest uploadAudioRequest) {
         String message = "Upload the audio successfully";
         String mediaFileName = "Celpip_9_T1_11.mp3";
-        String transcriptFileName = "Celpip_9_T1_11.srt.srt";
+        String transcriptFileName = "Celpip_9_T1_11.srt";
         UploadAudioResponse response = new UploadAudioResponse(message, mediaFileName, transcriptFileName);
         response.setStatus(HttpStatus.OK.value());
         response.setTimeStamp(System.currentTimeMillis());
@@ -47,7 +47,7 @@ public class DummyPlayerController {
     @GetMapping("/playlist/{playlist}/audio/{audio}")
     public ResponseEntity<PlayAudioResponse> playAudio(@PathVariable String playlist, @PathVariable String audio) {
         String audioObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/anna123_outlook.com/EnglishA1/Celpip_9_T1_11.mp3";
-        String subtitleObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/anna123_outlook.com/EnglishA1/Celpip_9_T1_11.srt.srt";
+        String subtitleObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/anna123_outlook.com/EnglishA1/Celpip_9_T1_11.srt";
         String message = "Get the audio and subtitle url successfully";
         PlayAudioResponse response = new PlayAudioResponse(message, audioObjectUrl, subtitleObjectUrl);
         response.setStatus(HttpStatus.OK.value());

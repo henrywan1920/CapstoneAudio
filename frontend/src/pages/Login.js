@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const baseURL = "http://localhost:5000";
+// const baseURL = "http://localhost:5000";
+const baseURL = "http://audio-transcribe-services.us-east-2.elasticbeanstalk.com";
 const loginURL = baseURL + "/user/login";
 
 const Login = () => {
+    const navigate = useNavigate();
     const [loginForm, setState] = useState({
         username: '',
         password: ''
@@ -32,6 +35,12 @@ const Login = () => {
         .then((response) => {
             const responseData = response.json();
             console.log(responseData.message);
+            if (response.ok) {
+                navigate("/Upload");
+            }
+            else {
+                navigate("/login");
+            }
         })
         .catch((error) => console.log(error));
     }

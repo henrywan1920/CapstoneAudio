@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,9 +56,9 @@ public class PlayerController {
         if (audioObjectUrl.length() == 0) {
             throw new NoAudioFoundException(String.format("No audio (%s) found in the playlist (%s): ", audio, playlist));
         }
-        String subtitleObjectUrl = audioObjectUrl.replace(".mp3", ".srt.srt");
+        String subtitleObjectUrl = audioObjectUrl.replace(".mp3", ".srt");
         // String audioObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.mp3";
-        // String subtitleObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.srt.srt";
+        // String subtitleObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.srt";
         String message = "Get the audio and subtitle object URL successfully";
         PlayAudioResponse response = new PlayAudioResponse(message, audioObjectUrl, subtitleObjectUrl);
         response.setStatus(HttpStatus.OK.value());
@@ -81,6 +82,7 @@ public class PlayerController {
         logger.info("Upload Successfully and Audio URL: " + audioUrl);
         String outputFilePath = "pool/" + customizedUsername + "/" + playlist + "/" + transcriptFileName;
         String transcriptionJobName = customizedUsername + "_" + playlist + "_" + mediaFileName.replace(".", "_");
+        playerService.removeExistingTranscriptWith(currentPrincipalName, playlist, transcriptFileName);
         String srtUrl = generateTranscriptFromMedia(audioUrl, transcriptionJobName, targetLanguage, outputFilePath);
         logger.info("Speech to Text Completed and AWS Transcribe URL: " + srtUrl);
         String existingAudioUrl = playerService.getAudioObjectUrlWith(currentPrincipalName, playlist, mediaFileName);

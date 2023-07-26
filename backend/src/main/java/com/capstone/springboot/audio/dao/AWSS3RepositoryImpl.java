@@ -25,5 +25,16 @@ public class AWSS3RepositoryImpl implements AWSS3Repository {
         s3Client.putObject(bucketName, key, file);
         s3Client.setObjectAcl(bucketName, key, CannedAccessControlList.PublicRead);
     }
+
+    @Override
+    public boolean doesObjectExists(String bucketName, String key) {
+        boolean exists = s3Client.doesObjectExist(bucketName, key);
+        return exists;
+    }
+
+    @Override
+    public void deleteObject(String bucketName, String key) {
+        s3Client.deleteObject(bucketName, key);
+    }
 }
 

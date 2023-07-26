@@ -15,5 +15,6 @@ public interface PlayerService {
                                     String playlist);
     public String getAudioObjectUrlWith(String username, String playlist, String audioFileName);
     public String putObject(File audioFile, String key);
+    public void removeExistingTranscriptWith(String username, String playlist, String transcriptFileName);
     public String speechToTextFromAudio(String mediaUri, String jobName, String language, String outputKey);
 }

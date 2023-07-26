@@ -1,5 +1,6 @@
 import { useState } from "react";
-const baseURL = "http://localhost:5000";
+// const baseURL = "http://localhost:5000";
+const baseURL = "http://audio-transcribe-services.us-east-2.elasticbeanstalk.com";
 const signupURL = baseURL + "/user/register";
 
 

@@ -5,24 +5,22 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.transcribe.AmazonTranscribeClient;
 import com.amazonaws.services.transcribe.AmazonTranscribeClientBuilder;
-import com.capstone.springboot.audio.models.AWSCredentialDTO;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.ResourceUtils;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 @Configuration
 public class AWSConfig {
+    @Value("${cloud.aws.credentials.accessKey}")
+    private String accessKey;
+
+    @Value("${cloud.aws.credentials.secretKey}")
+    private String secretKey;
     @Bean
     public AmazonS3Client amazonS3Client() {
-        AWSCredentialDTO credential = getAWSCredential();
         AWSCredentials awsCredentials = new BasicAWSCredentials(
-            credential.getAccessKey(),
-            credential.getSecretKey()
+            this.accessKey,
+            this.secretKey
         );
         AWSStaticCredentialsProvider awsStaticCredentialsProvider = new AWSStaticCredentialsProvider(awsCredentials);
         return (AmazonS3Client) AmazonS3ClientBuilder.standard()
@@ -32,10 +30,9 @@ public class AWSConfig {
 
     @Bean
     public AmazonTranscribeClient amazonTranscribeClient() {
-        AWSCredentialDTO credential = getAWSCredential();
         AWSCredentials awsCredentials = new BasicAWSCredentials(
-                credential.getAccessKey(),
-                credential.getSecretKey()
+                this.accessKey,
+                this.secretKey
         );
         AWSStaticCredentialsProvider awsStaticCredentialsProvider = new AWSStaticCredentialsProvider(awsCredentials);
         return (AmazonTranscribeClient) AmazonTranscribeClientBuilder.standard()
@@ -43,7 +40,7 @@ public class AWSConfig {
                 .build();
     }
 
-    private AWSCredentialDTO getAWSCredential() {
+    /*private AWSCredentialDTO getAWSCredential() {
         ObjectMapper objectMapper = new ObjectMapper();
         AWSCredentialDTO awsCredentialDTO = null;
         try {
@@ -52,13 +49,13 @@ public class AWSConfig {
             throw new RuntimeException(e);
         }
         return awsCredentialDTO;
-    }
+    }*/
 
-    private File loadAWSCredentialsWithSpringInternalClass() {
+    /*private File loadAWSCredentialsWithSpringInternalClass() {
         try {
             return ResourceUtils.getFile("classpath:AWSCredentials.json");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 }

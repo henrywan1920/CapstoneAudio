@@ -16,10 +16,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.net.URI;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
@@ -107,12 +109,25 @@ public class PlayerServiceImpl implements PlayerService {
         return "";
     }
 
-
     @Override
     public String putObject(File audioFile, String key) {
         String fileUrl = s3Repository.getURL(bucketName, key);
         s3Repository.putObject(bucketName, key, audioFile);
         return fileUrl;
+    }
+
+    @Override
+    public void removeExistingTranscriptWith(String username, String playlist, String transcriptFileName) {
+        String existedTranscriptUrl = getTranscriptUrlWith(username, playlist, transcriptFileName);
+        if (existedTranscriptUrl.length() > 0) {
+            String transcriptObjectKey = getObjectKeyFrom(existedTranscriptUrl);
+            String bucketName = getBucketNameFrom(existedTranscriptUrl);
+            if (transcriptObjectKey.length() > 0 && bucketName.length() > 0) {
+                if (s3Repository.doesObjectExists(bucketName, transcriptObjectKey)) {
+                    s3Repository.deleteObject(bucketName, transcriptObjectKey);
+                }
+            }
+        }
     }
 
     @Override
@@ -179,5 +194,46 @@ public class PlayerServiceImpl implements PlayerService {
         else {
             return LanguageCode.EnUS;
         }
+    }
+
+    private String getTranscriptUrlWith(String username, String playlist, String transcriptFileName) {
+        List<Playlist> playlistObjects = playlistRepository.findPlaylistByName(playlist);
+        for (Playlist playlistObject : playlistObjects) {
+            int playlistId = playlistObject.getId();
+            List<Player> players = playerRepository.findByUsernameAndPlaylistId(username, playlistId);
+            for (Player player : players) {
+                int transcriptId = player.getTranscriptId();
+                Transcript transcript = transcriptRepository.findById(transcriptId).get();
+                if (transcript.getName().equals(transcriptFileName)) {
+                    return transcript.getUrl();
+                }
+            }
+        }
+        logger.info(String.format("Transcript file: %s Not Found", transcriptFileName));
+        return "";
+    }
+
+    private String getObjectKeyFrom(String objectUrl) {
+        URI uri = null;
+        try {
+            uri = new URI(objectUrl);
+        } catch (URISyntaxException e) {
+            logger.warn(String.format("Invalid Transcript Object URL: %s ", objectUrl));
+            return "";
+        }
+        String objectKey = uri.getPath().substring(1);
+        return objectKey;
+    }
+
+    private String getBucketNameFrom(String objectUrl) {
+        URI uri = null;
+        try {
+            uri = new URI(objectUrl);
+        } catch (URISyntaxException e) {
+            logger.warn(String.format("Invalid Transcript Object URL: %s ", objectUrl));
+            return "";
+        }
+        String bucketName = uri.getHost();
+        return bucketName;
     }
 }

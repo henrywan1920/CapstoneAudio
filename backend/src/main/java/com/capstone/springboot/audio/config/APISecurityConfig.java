@@ -48,6 +48,8 @@ public class APISecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/dummy/api/audios").hasAnyRole("TEMP", "VIP", "SVIP")
                         .requestMatchers(HttpMethod.POST, "/dummy/api/audio").hasAnyRole("TEMP", "VIP", "SVIP")
                         .requestMatchers(HttpMethod.GET, "/dummy/playlist/{playlist}/audio/{audio}").hasAnyRole("TEMP", "VIP", "SVIP")
+                        .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
                         .anyRequest().authenticated()
         );
 

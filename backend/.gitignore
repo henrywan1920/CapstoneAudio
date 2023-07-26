@@ -6,6 +6,11 @@ src/main/resources/AWSCredentials.json
 AWSCredentials.json
 */AWSCredentials.json
 
+### Application Configuration ###
+src/main/resources/application.properties
+*/application.properties
+application.properties
+
 ### STS ###
 .apt_generated
 .classpath
