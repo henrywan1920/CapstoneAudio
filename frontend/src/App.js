@@ -2,11 +2,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
-import NoPage from "./pages/Upload";
+import Upload from "./pages/Upload";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Navbar from "./Navbar/NavbarBefore";
 import Footer from "./Footer/Footer";
+import React from "react";
+import Player1 from "./pages/Player";
 
 function App() {
   return (
@@ -19,8 +21,8 @@ function App() {
           <Route path="signup" element={<Signup />} />
 
           <Route path="login" element={<Login />} />
-
-          <Route path="*" element={<NoPage />} />
+          <Route path="player" element={<Player1 />} />
+          <Route path="upload" element={<Upload />} />
           <Route path="footer" element={<Footer />} />
         </Route>
       </Routes>
