@@ -7,6 +7,7 @@ import com.capstone.springboot.audio.models.response.PlayAudioResponse;
 import com.capstone.springboot.audio.models.response.UploadAudioResponse;
 import com.capstone.springboot.audio.service.PlayerService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +22,8 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping("/api")
@@ -66,26 +69,24 @@ public class PlayerController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/audio")
-    public ResponseEntity<UploadAudioResponse> uploadAudio(@ModelAttribute UploadAudioRequest uploadAudioRequest) throws IOException {
+    @RequestMapping(path = "/audio", method = POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+     public ResponseEntity<UploadAudioResponse> uploadAudio(@RequestParam String playlist, @RequestParam String mediaFileName,
+                                                            @RequestParam String transcriptFileName, @RequestParam String language,
+                                                            @RequestPart MultipartFile content) throws IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         String customizedUsername = currentPrincipalName.replace("@", "_");
-        String mediaFileName = uploadAudioRequest.getMediaFileName();
-        String transcriptFileName = uploadAudioRequest.getTranscriptFileName();
-        String playlist = uploadAudioRequest.getPlaylist();
-        String targetLanguage = uploadAudioRequest.getLanguage();
         String filePath = "pool/" + customizedUsername + "/" + playlist + "/" + mediaFileName;
-        MultipartFile content = uploadAudioRequest.getContent();
         File audioFile = saveFiletoLocalPool(mediaFileName, customizedUsername, content);
         String audioUrl = saveFiletoAWSS3(filePath, audioFile);
         logger.info("Upload Successfully and Audio URL: " + audioUrl);
         String outputFilePath = "pool/" + customizedUsername + "/" + playlist + "/" + transcriptFileName;
         String transcriptionJobName = customizedUsername + "_" + playlist + "_" + mediaFileName.replace(".", "_");
         playerService.removeExistingTranscriptWith(currentPrincipalName, playlist, transcriptFileName);
-        String srtUrl = generateTranscriptFromMedia(audioUrl, transcriptionJobName, targetLanguage, outputFilePath);
+        String srtUrl = generateTranscriptFromMedia(audioUrl, transcriptionJobName, language, outputFilePath);
         logger.info("Speech to Text Completed and AWS Transcribe URL: " + srtUrl);
         String existingAudioUrl = playerService.getAudioObjectUrlWith(currentPrincipalName, playlist, mediaFileName);
+        logger.info("Transcript file name: " + transcriptFileName);
         if (existingAudioUrl.length() == 0) {
             playerService.createNewRecordWith(currentPrincipalName,
                     mediaFileName, audioUrl,

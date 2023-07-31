@@ -20,7 +20,7 @@
 //     </div>
 //   );
 // }
-import { Player } from "webvtt-player";
+import React, { Player } from "webvtt-player";
 import { useEffect } from "react";
 
 export default function Player1() {

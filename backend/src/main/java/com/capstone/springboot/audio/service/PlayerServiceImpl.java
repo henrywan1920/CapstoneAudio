@@ -105,7 +105,7 @@ public class PlayerServiceImpl implements PlayerService {
                 }
             }
         }
-        logger.info("No audio file found");
+        logger.info("No existing audio file found");
         return "";
     }
 
@@ -209,7 +209,7 @@ public class PlayerServiceImpl implements PlayerService {
                 }
             }
         }
-        logger.info(String.format("Transcript file: %s Not Found", transcriptFileName));
+        logger.info(String.format("Transcript file: %s No Existing File Found", transcriptFileName));
         return "";
     }
 
