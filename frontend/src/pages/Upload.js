@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Buffer } from "buffer";
 // import axios from "axios";
 
-const baseURL = "http://localhost:5000";
-// const baseURL = "http://audio-transcribe-services.us-east-2.elasticbeanstalk.com";
+// const baseURL = "http://localhost:5000";
+const baseURL = "http://audio-transcribe-services.us-east-2.elasticbeanstalk.com";
 const fileUploadURL = baseURL + "/api/audio";
 
 // const Upload = () => {
@@ -256,7 +256,7 @@ class Upload extends Component {
     return (
       <div>
         <h1 className="subTitle">Upload Audio</h1>
-        <form className="fileUploadForm">
+        <form className="form">
           <div className="field">
             <label htmlFor="playlist">Playlist:</label>
             <input type="text" id="playlist" name="playlist" value={this.state.playlist}
