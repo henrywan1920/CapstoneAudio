@@ -18,7 +18,7 @@ const Navbar = () => {
           <NavLink to="/" activeStyle>
             Home
           </NavLink>
-          <NavLink to="/Upload" activeStyle>
+          <NavLink to="/upload" activeStyle>
             Upload
           </NavLink>
           <NavLink to="/contact" activeStyle>
