@@ -18,8 +18,14 @@ const Navbar = () => {
           <NavLink to="/Home" activeStyle>
             Home
           </NavLink>
+          <NavLink to="/audio" activeStyle>
+            Dashboard
+          </NavLink>
           <NavLink to="/Upload" activeStyle>
             Upload
+          </NavLink>
+          <NavLink to="/signup" activeStyle>
+            Register
           </NavLink>
           <NavLink to="/contact" activeStyle>
             Contact Us

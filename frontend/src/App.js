@@ -5,6 +5,7 @@ import Contact from "./pages/Contact";
 import Upload from "./pages/Upload";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Audio from "./pages/Audio";
 import React from "react";
 
 const router = createBrowserRouter([
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: 'signup',
         element: <Signup />
+      },
+      {
+        path: 'audio',
+        element: <Audio />
       },
       {
         path: 'contact',
