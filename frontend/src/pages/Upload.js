@@ -1,10 +1,15 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Buffer } from "buffer";
+// import { json } from "react-router-dom";
 // import axios from "axios";
 
 const baseURL = "http://localhost:5000";
 // const baseURL = "http://audio-transcribe-services.us-east-2.elasticbeanstalk.com";
+
 const fileUploadURL = baseURL + "/api/audio";
+const username = "anna123@outlook.com";
+const password = "audio123";
 
 // const Upload = () => {
 //   const [selectedFile, setSelectedFile] = useState(null);
@@ -171,113 +176,232 @@ const fileUploadURL = baseURL + "/api/audio";
 // );
 // }
 
-class Upload extends Component {
+// class Upload extends Component {
 
-  // API Endpoints
-  custom_file_upload_url = fileUploadURL;
+//   // API Endpoints
+//   custom_file_upload_url = fileUploadURL;
 
-  constructor(props) {
-    super(props);
-    this.username = "anna123@outlook.com";
-    this.password = "audio123";
-    this.state = {
-      playlist: 'default',
-      mediaFileName: "",
-      transcriptFileName: "",
-      language: "English",
-      content: null
-    }
-  }
+//   constructor(props) {
+//     super(props);
+//     this.navigate = props.navigate;
+//     this.username = "anna123@outlook.com";
+//     this.password = "audio123";
+//     this.state = {
+//       playlist: 'default',
+//       mediaFileName: "",
+//       transcriptFileName: "",
+//       language: "English",
+//       content: null
+//     }
+//   }
 
-  getTranscriptNameFrom = (inputFileName) => {
+//   getTranscriptNameFrom = (inputFileName) => {
+//     const temp = inputFileName.split(".");
+//     return temp[0];
+//   }
+
+//   handlePlaylistChange = (event) => {
+//     this.setState((prevFileData) => ({
+//       ...prevFileData,
+//       playlist: event.target.value
+//     }));
+//   };
+
+//   handleLanguageChange = (event) => {
+//     this.setState((prevFileData) => ({
+//       ...prevFileData,
+//       language: event.target.value
+//     }));
+//   };
+
+//   handleFileChange = (event) => {
+//     const inputFile = event.target.files[0];
+//     this.setState((prevFileData) => ({
+//       ...prevFileData,
+//       mediaFileName: inputFile.name,
+//       transcriptFileName: this.getTranscriptNameFrom(inputFile.name),
+//       content: inputFile
+//     }));
+//   };
+
+//   handleSubmit = (event) => {
+//     event.preventDefault();
+//     if (this.state.content != null) {
+//       let formData = new FormData();
+//       console.log("Playlist: " + this.state.playlist);
+//       formData.append("playlist", this.state.playlist);
+//       formData.append("mediaFileName", this.state.mediaFileName);
+//       formData.append("transcriptFileName", this.state.transcriptFileName);
+//       formData.append("language", this.state.language);
+//       formData.append("content", this.state.content);
+//       console.log("transcriptFileName: " + this.state.transcriptFileName);
+//       console.log("content is null ? " + this.state.content === null)
+//       fetch("http://localhost:5000/api/audio", {
+//         method: "POST",
+//         credentials: 'include',
+//         mode: 'no-cors',
+//         headers: {
+//             'Authorization': 'Basic ' + Buffer.from(this.username + ':' + this.password).toString('base64'),
+//             'Content-Type': 'application/json'
+//         },
+//         body: formData
+//       })
+//       .then(res => {
+//         if (res.status === 200) {
+//           console.log(`Success` + res.data);
+//           this.navigate('')
+//         }
+//         else {
+//           console.log(`Failed` + res.data);
+//         }
+//       })
+//       .catch(err => {
+//           console.log(err);
+//       })
+//     }
+//   }
+
+//   render() {
+//     return (
+//       <div>
+//         <h1 className="subTitle">Upload Audio</h1>
+//         <form className="form">
+//           <div className="field">
+//             <label htmlFor="playlist">Playlist:</label>
+//             <input type="text" id="playlist" name="playlist" value={this.state.playlist}
+//               onChange={this.handlePlaylistChange}
+//             />
+//           </div>
+//           <div className="field">
+//             <label htmlFor="language">Language:</label>
+//             <input type="text" id="language" name="language" value={this.state.language}
+//               onChange={this.handleLanguageChange}
+//             />
+//           </div>
+//           <div className="field">
+//             <label htmlFor="audioFile">Select Audio File:</label>
+//             <input type="file" id="audioFile" onChange={this.handleFileChange} /><br/><br/>
+//           </div>
+//           <input type="submit" onClick={this.handleSubmit} value="Upload" />
+//         </form>
+//       </div>
+//     );
+//   }
+// }
+
+const Upload = () => {
+  const navigate = useNavigate();
+  const[stateData, setState] = useState({
+    playlist: 'default',
+    mediaFileName: "",
+    transcriptFileName: "",
+    language: "English",
+    content: null
+  });
+
+  const getTranscriptNameFrom = (inputFileName) => {
     const temp = inputFileName.split(".");
     return temp[0];
   }
-
-  handlePlaylistChange = (event) => {
-    this.setState((prevFileData) => ({
-      ...prevFileData,
+  
+  const handlePlaylistChange = (event) => {
+    setState((prevStateData) => ({
+      ...prevStateData,
       playlist: event.target.value
     }));
   };
-
-  handleLanguageChange = (event) => {
-    this.setState((prevFileData) => ({
-      ...prevFileData,
+  
+  const handleLanguageChange = (event) => {
+    setState((prevStateData) => ({
+      ...prevStateData,
       language: event.target.value
     }));
   };
-
-  handleFileChange = (event) => {
+  
+  const handleFileChange = (event) => {
     const inputFile = event.target.files[0];
-    this.setState((prevFileData) => ({
-      ...prevFileData,
+    setState((prevStateData) => ({
+      ...prevStateData,
       mediaFileName: inputFile.name,
-      transcriptFileName: this.getTranscriptNameFrom(inputFile.name),
+      transcriptFileName: getTranscriptNameFrom(inputFile.name),
       content: inputFile
     }));
   };
-
-  handleSubmit = (event) => {
+  
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (this.state.content !== null) {
+    if (stateData.content != null) {
       let formData = new FormData();
-      console.log("Playlist: " + this.state.playlist);
-      formData.append("playlist", this.state.playlist);
-      formData.append("mediaFileName", this.state.mediaFileName);
-      formData.append("transcriptFileName", this.state.transcriptFileName);
-      formData.append("language", this.state.language);
-      formData.append("content", this.state.content);
-      fetch("http://localhost:5000/api/audio", {
+      formData.append("playlist", stateData.playlist);
+      formData.append("mediaFileName", stateData.mediaFileName);
+      formData.append("transcriptFileName", stateData.transcriptFileName);
+      formData.append("language", stateData.language);
+      formData.append("content", stateData.content);
+      const response = await fetch(fileUploadURL, {
         method: "POST",
         credentials: 'include',
         mode: 'no-cors',
         headers: {
-            'Authorization': 'Basic ' + Buffer.from(this.username + ':' + this.password).toString('base64'),
+            'Authorization': 'Basic ' + Buffer.from(username + ':' + password).toString('base64'),
             'Content-Type': 'application/json'
         },
         body: formData
       })
-      .then(res => {
-        if (res.status === 200) {
-          console.log(`Success` + res.data);
-        }
-        else {
-          console.log(`Failed` + res.data);
-        }
-      })
-      .catch(err => {
-          console.log(err);
-      })
+      // .then(res => {
+      //   if (res.status === 200) {
+      //     console.log(`Success` + res.data);
+      //     navigate('/success');
+      //   }
+      //   else {
+      //     console.log(`Failed` + res.data);
+      //     navigate('/error');
+      //   }
+      // })
+      // .catch(err => {
+      //     console.log(err);
+      // })
+
+      // if (!response.ok) {
+      //   throw json(
+      //     { message: response.message },
+      //     {
+      //       status: 500,
+      //     }
+      //   );
+      // }
+      // else {
+      //   const resData = await response.json();
+      //   console.log(resData);
+      //   navigate('/success');
+      // }
+      const resData = await response.json();
+      console.log(resData);
+      navigate('/success');
     }
   }
 
-  render() {
-    return (
-      <div>
-        <h1 className="subTitle">Upload Audio</h1>
-        <form className="form">
-          <div className="field">
-            <label htmlFor="playlist">Playlist:</label>
-            <input type="text" id="playlist" name="playlist" value={this.state.playlist}
-              onChange={this.handlePlaylistChange}
-            />
-          </div>
-          <div className="field">
-            <label htmlFor="language">Language:</label>
-            <input type="text" id="language" name="language" value={this.state.language}
-              onChange={this.handleLanguageChange}
-            />
-          </div>
-          <div className="field">
-            <label htmlFor="audioFile">Select Audio File:</label>
-            <input type="file" id="audioFile" onChange={this.handleFileChange} /><br/><br/>
-          </div>
-          <input type="submit" onClick={this.handleSubmit} value="Upload" />
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h1 className="subTitle">Upload Audio</h1>
+      <form className="form">
+        <div className="field">
+          <label htmlFor="playlist">Playlist:</label>
+          <input type="text" id="playlist" name="playlist" value={stateData.playlist}
+                  onChange={handlePlaylistChange} />
+        </div>
+        <div className="field">
+          <label htmlFor="language">Language:</label>
+          <input type="text" id="language" name="language" value={stateData.language}
+            onChange={handleLanguageChange}
+          />
+        </div>
+        <div className="field">
+          <label htmlFor="audioFile">Select Audio File:</label>
+          <input type="file" id="audioFile" onChange={handleFileChange} /><br/><br/>
+        </div>
+        <input type="submit" onClick={handleSubmit} value="Upload" />
+      </form>
+    </div>);
 }
 
 export default Upload;

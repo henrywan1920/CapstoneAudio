@@ -69,7 +69,43 @@ public class PlayerController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/audio", method = POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    @PostMapping(path = "/audio")
+    public ResponseEntity<UploadAudioResponse> uploadAudio(@ModelAttribute UploadAudioRequest uploadAudioRequest) throws IOException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        String customizedUsername = currentPrincipalName.replace("@", "_");
+        String playlist = uploadAudioRequest.getPlaylist();
+        String language = uploadAudioRequest.getLanguage();
+        String mediaFileName = uploadAudioRequest.getMediaFileName();
+        String transcriptFileName = uploadAudioRequest.getTranscriptFileName();
+        MultipartFile content = uploadAudioRequest.getContent();
+        String filePath = "pool/" + customizedUsername + "/" + playlist + "/" + mediaFileName;
+        File audioFile = saveFiletoLocalPool(mediaFileName, customizedUsername, content);
+        String audioUrl = saveFiletoAWSS3(filePath, audioFile);
+        logger.info("Upload Successfully and Audio URL: " + audioUrl);
+        String outputFilePath = "pool/" + customizedUsername + "/" + playlist + "/" + transcriptFileName;
+        String transcriptionJobName = customizedUsername + "_" + playlist + "_" + mediaFileName.replace(".", "_");
+        playerService.removeExistingTranscriptWith(currentPrincipalName, playlist, transcriptFileName);
+        String srtUrl = generateTranscriptFromMedia(audioUrl, transcriptionJobName, language, outputFilePath);
+        logger.info("Speech to Text Completed and AWS Transcribe URL: " + srtUrl);
+        String existingAudioUrl = playerService.getAudioObjectUrlWith(currentPrincipalName, playlist, mediaFileName);
+        logger.info("Transcript file name: " + transcriptFileName);
+        if (existingAudioUrl.length() == 0) {
+            playerService.createNewRecordWith(currentPrincipalName,
+                    mediaFileName, audioUrl,
+                    transcriptFileName, srtUrl,
+                    playlist);
+        }
+        logger.info("Add the new audio and subtitle to the database successfully.");
+        removeFileFromLocalPool(audioFile);
+        String message = "Upload the audio and generate transcription successfully";
+        UploadAudioResponse response = new UploadAudioResponse(message, mediaFileName, transcriptFileName);
+        response.setStatus(HttpStatus.OK.value());
+        response.setTimeStamp(System.currentTimeMillis());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /*@RequestMapping(path = "/audio", method = POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
      public ResponseEntity<UploadAudioResponse> uploadAudio(@RequestParam String playlist, @RequestParam String mediaFileName,
                                                             @RequestParam String transcriptFileName, @RequestParam String language,
                                                             @RequestPart MultipartFile content) throws IOException {
@@ -100,7 +136,7 @@ public class PlayerController {
         response.setStatus(HttpStatus.OK.value());
         response.setTimeStamp(System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+    }*/
 
     private String saveFiletoAWSS3(String key, File audioFile) throws IOException {
         String fileURL = playerService.putObject(audioFile, key);
@@ -117,7 +153,8 @@ public class PlayerController {
             boolean result = Files.deleteIfExists(file.toPath());
             return result;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.debug(e.getMessage());
+            return true;
         }
     }
 

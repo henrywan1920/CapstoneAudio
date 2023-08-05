@@ -1,49 +1,55 @@
-// import React, { useState, useEffect } from "react";
+import { json, defer, useLoaderData, Await } from "react-router-dom";
+import React, { Suspense } from 'react';
+import AudiosList from "./AudiosList";
 
-
+const baseURL = "http://localhost:5000";
+// const baseURL = "http://audio-transcribe-services.us-east-2.elasticbeanstalk.com";
+const playlistURL = baseURL + "/api/audios";
 
 const Audio = () => {
-  const audiosData = {
-    "status": 200,
-    "message": "Get all the audios associated with a customer",
-    "timeStamp": 1691022777344,
-    "audios": {
-      "FrenchB2": [
-        "TEF_9_T1_1"
-      ],
-      "EnglishA1": [
-        "Celpip_9_T1_11",
-        "Celpip_9_T1_12",
-        "Celpip_9_T1_13"
-      ]
-    }
-  };
-
-//   const [audiosData, setAudiosData] = useState([]);
-
-//   useEffect(() => {
-//     fetch("http://localhost:5000/dummy/api/audios")
-//       .then((response) => response.json())
-//       .then((data) => setAudiosData(data.audiosData))
-//       .catch((error) => console.error("Error fetching data:", error));
-//   }, []);
+  const { audios } = useLoaderData();
 
   return (
     <div>
-      <h1 className="subTitle">Dashboard</h1>
-      {Object.keys(audiosData.audios).map((language) => (
-        <div className="dashboard" key={language}>
-          <h2>{language}</h2>
-          <ul>
-            {audiosData.audios[language].map((audio) => (
-              <li key={audio}>{audio}</li>
-            ))}
-          </ul>
-        </div>
-      ))}
+      <Suspense fallback={<p style={{ textAlign: 'center' }}>Loading...</p>}>
+        <Await resolve={audios}>
+          {(loadedAudios) => <AudiosList audios={loadedAudios} />}
+        </Await>
+      </Suspense>
     </div>
   );
 };
 
- 
 export default Audio;
+
+const loadAudios = async () => {
+  const username = 'anna123@outlook.com';
+  const password = 'audio123';
+  const response = await fetch(playlistURL, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Authorization': 'Basic ' + btoa(username + ':' + password)
+    }
+  });
+  if (!response.ok) {
+    throw json(
+      { message: response.message },
+      {
+        status: 500,
+      }
+    );
+  }
+  else {
+    const resData = await response.json();
+    console.log(resData);
+    return resData.audios;
+  }
+
+}
+
+export function loader() {
+  return defer({
+    audios: loadAudios(),
+  });
+}

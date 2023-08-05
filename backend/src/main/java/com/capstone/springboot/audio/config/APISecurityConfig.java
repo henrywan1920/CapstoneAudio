@@ -42,12 +42,12 @@ public class APISecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(configurer ->
                 configurer
-                        .requestMatchers(HttpMethod.GET, "/api/audios").hasAnyRole("TEMP", "VIP", "SVIP")
                         .requestMatchers(HttpMethod.POST, "/api/audio").hasAnyRole("TEMP", "VIP", "SVIP")
                         .requestMatchers(HttpMethod.GET, "/playlist/{playlist}/audio/{audio}").hasAnyRole("TEMP", "VIP", "SVIP")
                         .requestMatchers(HttpMethod.GET, "/dummy/api/audios").hasAnyRole("TEMP", "VIP", "SVIP")
                         .requestMatchers(HttpMethod.POST, "/dummy/api/audio").hasAnyRole("TEMP", "VIP", "SVIP")
                         .requestMatchers(HttpMethod.GET, "/dummy/playlist/{playlist}/audio/{audio}").hasAnyRole("TEMP", "VIP", "SVIP")
+                        .requestMatchers(HttpMethod.GET, "/api/audios").hasAnyRole("TEMP", "VIP", "SVIP")
                         .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
                         .anyRequest().authenticated()
@@ -56,12 +56,12 @@ public class APISecurityConfig {
         // use HTTP Basic authentication
         http.httpBasic(Customizer.withDefaults());
 
-        // disable CORS
-        http.cors(AbstractHttpConfigurer::disable);
-
         // disable Cross Site Request Forgery (CSRF)
         // in general, not required for stateless REST APIs that use POST, PUT, DELETE and/or PATCH
         http.csrf(AbstractHttpConfigurer::disable);
+
+        // enable default CORS
+        http.cors(Customizer.withDefaults());
 
         return http.build();
     }
