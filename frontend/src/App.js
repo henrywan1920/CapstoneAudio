@@ -5,8 +5,8 @@ import Contact from "./pages/Contact";
 import Upload from "./pages/Upload";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Player from "./pages/Player";
 import Audio, { loader as audiosLoader } from "./pages/Audio";
+import MediaDetailPage, { loader as audioLoader } from "./pages/Player";
 import ErrorPage from "./pages/Error";
 import React from "react";
 import Success from "./pages/Success";
@@ -26,15 +26,34 @@ const router = createBrowserRouter([
         path: 'signup',
         element: <Signup />
       },
+      // {
+      //   path: 'audio',
+      //   element: <Audio />,
+      //   loader: audiosLoader,
+      //   children: [
+      //     {
+      //       path: ':playlist/:mediaFileName',
+      //       id: 'media-player',
+      //       element: <MediaPlayer />,
+      //       loader: audioLoader
+      //     }
+      //   ]
+      // },
       {
         path: 'audio',
-        element: <Audio />,
-        loader: audiosLoader,
         children: [
+          {
+            index: true,
+            element: <Audio />,
+            loader: audiosLoader
+          },
           {
             path: ':playlist/:mediaFileName',
             id: 'media-player',
-            element: <Player />
+            loader: audioLoader,
+            children: [
+              {index: true, element: <MediaDetailPage />}
+            ]
           }
         ]
       },

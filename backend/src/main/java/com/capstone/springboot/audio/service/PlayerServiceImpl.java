@@ -132,7 +132,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public String speechToTextFromAudio(String mediaUri, String jobName, String language, String outputKey) {
-        String srtUrl = "";
+        String vttUrl = "";
         Media media = new Media().withMediaFileUri(mediaUri);
         LanguageCode languageCode = getLanguageCodeFrom(language);
         StartTranscriptionJobRequest startTranscriptionJobRequest = new StartTranscriptionJobRequest()
@@ -144,9 +144,9 @@ public class PlayerServiceImpl implements PlayerService {
                 .withMedia(media);
         transcribeClient.startTranscriptionJob(startTranscriptionJobRequest);
         GetTranscriptionJobResult transcriptionJobResult = getTranscriptionJobResult(jobName);
-        srtUrl = transcriptionJobResult.getTranscriptionJob().getTranscript().getTranscriptFileUri() + ".srt";
+        vttUrl = transcriptionJobResult.getTranscriptionJob().getTranscript().getTranscriptFileUri() + ".srt";
         deleteTranscriptionJob(jobName);
-        return srtUrl;
+        return vttUrl;
     }
 
     private void deleteTranscriptionJob(String jobName) {

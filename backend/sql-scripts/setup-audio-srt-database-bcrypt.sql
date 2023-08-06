@@ -45,10 +45,10 @@ CREATE TABLE `transcript` (
 
 INSERT INTO `transcript` (name, url)
 VALUES
-('Celpip_9_T1_11.srt', 'https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.srt'),
-('Celpip_9_T1_12.srt', 'https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_12.srt'),
-('Celpip_9_T1_13.srt', 'https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_13.srt'),
-('TEF_9_T1_1.srt', 'https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/FrenchB2/TEF_9_T1_1.srt');
+('Celpip_9_T1_11.vtt', 'https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.vtt'),
+('Celpip_9_T1_12.vtt', 'https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_12.vtt'),
+('Celpip_9_T1_13.vtt', 'https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_13.vtt'),
+('TEF_9_T1_1.vtt', 'https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/FrenchB2/TEF_9_T1_1.vtt');
 
 --
 -- Table schema for table `audio`

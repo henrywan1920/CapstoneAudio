@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // class AudiosList extends Component {
 //   constructor(props) {
@@ -26,6 +26,7 @@ import { NavLink } from 'react-router-dom';
 
 const AudiosList = (props) => {
   const audios = props.audios;
+  console.log(audios);
   return (
     <div>
       {Object.keys(audios).map((playlist) => (
@@ -34,7 +35,7 @@ const AudiosList = (props) => {
           <ul>
             {audios[playlist].map((audio) => 
               <li key={audio}>
-                <NavLink to={`${playlist}/${audio}`}>{audio}</NavLink>
+                <Link to={`${playlist}/${audio}`}>{audio}</Link>
               </li>
             )}
           </ul>

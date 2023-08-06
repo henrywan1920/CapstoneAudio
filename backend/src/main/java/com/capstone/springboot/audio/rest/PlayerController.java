@@ -59,9 +59,9 @@ public class PlayerController {
         if (audioObjectUrl.length() == 0) {
             throw new NoAudioFoundException(String.format("No audio (%s) found in the playlist (%s): ", audio, playlist));
         }
-        String subtitleObjectUrl = audioObjectUrl.replace(".mp3", ".srt");
+        String subtitleObjectUrl = audioObjectUrl.replace(".mp3", ".vtt");
         // String audioObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.mp3";
-        // String subtitleObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.srt";
+        // String subtitleObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.vtt";
         String message = "Get the audio and subtitle object URL successfully";
         PlayAudioResponse response = new PlayAudioResponse(message, audioObjectUrl, subtitleObjectUrl);
         response.setStatus(HttpStatus.OK.value());
@@ -86,14 +86,14 @@ public class PlayerController {
         String outputFilePath = "pool/" + customizedUsername + "/" + playlist + "/" + transcriptFileName;
         String transcriptionJobName = customizedUsername + "_" + playlist + "_" + mediaFileName.replace(".", "_");
         playerService.removeExistingTranscriptWith(currentPrincipalName, playlist, transcriptFileName);
-        String srtUrl = generateTranscriptFromMedia(audioUrl, transcriptionJobName, language, outputFilePath);
-        logger.info("Speech to Text Completed and AWS Transcribe URL: " + srtUrl);
+        String vttUrl = generateTranscriptFromMedia(audioUrl, transcriptionJobName, language, outputFilePath);
+        logger.info("Speech to Text Completed and AWS Transcribe URL: " + vttUrl);
         String existingAudioUrl = playerService.getAudioObjectUrlWith(currentPrincipalName, playlist, mediaFileName);
         logger.info("Transcript file name: " + transcriptFileName);
         if (existingAudioUrl.length() == 0) {
             playerService.createNewRecordWith(currentPrincipalName,
                     mediaFileName, audioUrl,
-                    transcriptFileName, srtUrl,
+                    transcriptFileName, vttUrl,
                     playlist);
         }
         logger.info("Add the new audio and subtitle to the database successfully.");
@@ -119,14 +119,14 @@ public class PlayerController {
         String outputFilePath = "pool/" + customizedUsername + "/" + playlist + "/" + transcriptFileName;
         String transcriptionJobName = customizedUsername + "_" + playlist + "_" + mediaFileName.replace(".", "_");
         playerService.removeExistingTranscriptWith(currentPrincipalName, playlist, transcriptFileName);
-        String srtUrl = generateTranscriptFromMedia(audioUrl, transcriptionJobName, language, outputFilePath);
-        logger.info("Speech to Text Completed and AWS Transcribe URL: " + srtUrl);
+        String vttUrl = generateTranscriptFromMedia(audioUrl, transcriptionJobName, language, outputFilePath);
+        logger.info("Speech to Text Completed and AWS Transcribe URL: " + vttUrl);
         String existingAudioUrl = playerService.getAudioObjectUrlWith(currentPrincipalName, playlist, mediaFileName);
         logger.info("Transcript file name: " + transcriptFileName);
         if (existingAudioUrl.length() == 0) {
             playerService.createNewRecordWith(currentPrincipalName,
                     mediaFileName, audioUrl,
-                    transcriptFileName, srtUrl,
+                    transcriptFileName, vttUrl,
                     playlist);
         }
         logger.info("Add the new audio and subtitle to the database successfully.");
@@ -144,8 +144,8 @@ public class PlayerController {
     }
 
     private String generateTranscriptFromMedia(String mediaUrl, String jobName, String language, String outputKey) {
-        String srtUrl = playerService.speechToTextFromAudio(mediaUrl, jobName, language, outputKey);
-        return srtUrl;
+        String vttUrl = playerService.speechToTextFromAudio(mediaUrl, jobName, language, outputKey);
+        return vttUrl;
     }
 
     private boolean removeFileFromLocalPool(File file) {
