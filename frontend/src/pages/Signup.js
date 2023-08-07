@@ -1,85 +1,58 @@
-import { useState } from "react";
+import React, { useState } from "react";
+const baseURL = "http://localhost:5000";
+// const baseURL = "http://audio-transcribe-services.us-east-2.elasticbeanstalk.com";
+const signupURL = baseURL + "/user/register";
+
 
 const Signup = () => {
 
     const [showText, setShowText] =useState(false);
 
     const [userData, setUserData] = useState({
-        username: '',
-        email: '',
         password: '',
-        re_password: '',
-        role: 'temp',
+        rePassword: ''
     });
-
-
     const handleInputChange = (e) => {
         const {name, value} = e.target;
         setUserData({...userData, [name]: value})
     }
 
-    function handleSignup (e) { 
-        e.preventDefault();
 
-        if(userData.password !== userData.re_password){
+    const handleSignup = async () => {
+
+        if(userData.password !== userData.rePassword){
             setShowText(true);
             return;
         }
 
-        setShowText(false);
-        
-        const {re_password, ...userInfo} = userData;
-
-        const jsonData = JSON.stringify(userInfo);
-        console.log(jsonData);
-
-        try {
-            const response = fetch('/user/register', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(jsonData),
-            });
-
-            if (response.ok) {
-                const responseData = response.json();
-                //handle happy path
-                console.log(responseData.message);
-            }else{
-                //sad path
-                throw new Error('Failed to sign up');
-            }
-            } catch (error) {
-            console.error(error);
-            //other error
-    }
-        
+        const userLoginDataJSON = JSON.stringify(userData);
+        console.log(userLoginDataJSON);
+    
+        fetch(signupURL, {
+            method: 'POST',
+            credentials: 'include'
+        })
+        .then((response) => {
+            const responseData = response.json();
+            console.log(responseData.message);
+        })
+        .catch((error) => console.log(error));
     }
 
     return ( <>
         <h1 className="subTitle">Sign up</h1>
-        <form className="form" onSubmit={handleSignup}>
+        <form action={ signupURL } className="form" onSubmit={handleSignup} method="POST">
             <div className="field">
                 <label htmlFor="username">Username:</label>
-                <input 
-                type="text" name="username" id="username" value={userData.username}
-                onChange={handleInputChange}></input>
-            </div>
-            <div className="field">
-                <label htmlFor="email">Email:</label>
-                <input 
-                type="email" name="email" id="email" value={userData.email}
-                onChange={handleInputChange}></input>
-            </div>         
+                <input type="email" name="username" id="username"></input>
+            </div>        
             <div className="field">
                 <label htmlFor="password">Password:</label>
-                <input type="password" name="password" id="password" value={userData.password}
-                onChange={handleInputChange}></input>
+                <input type="password" name="password" id="password" value={userData.password} onChange={handleInputChange}></input>
             </div>
             <div className="field">
-                <label htmlFor="re_password">Re-enter password:</label>
-                <input type="password" name="re_password" id="re_password" value={userData.re_password}
+                <label htmlFor="rePassword">Re-enter password:</label>
+                <input type="password" name="rePassword" id="rePassword" value={userData.rePassword}
                 onChange={handleInputChange}></input>
             </div>
             {showText && <h2 color="red">Make sure you enter the same password twice</h2>}
@@ -89,7 +62,7 @@ const Signup = () => {
                     <label htmlFor="terms">I agree to the <a href="www.google.com">terms</a></label>
                 </div>
                 <div>
-                    <button>Submit</button>
+                    <input id="signupRequest" type="submit" value="Submit"></input>
                 </div>
             </div>
         </form>

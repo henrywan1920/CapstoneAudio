@@ -1,13 +1,21 @@
-import exampleImg from './img/example.jpg';
+import React from "react";
+import homeImg from "./img/homeImg.png";
 const Home = () => {
-    return ( <>
+  return (
+    <>
+      <container id="hp-container">
+        <div class="hp-intro1">
+          <p>Audio Translator</p>
+          <h2>Breaking Barriers, </h2>
+          <h2>One Language at a Time</h2>
+        </div>
 
-        <h1>homepage</h1>
-        <img className="exampleImg" src={exampleImg} alt="examplePage"></img>
-        
-
+        <div class="hp-intro2">
+          <img className="homeImg" src={homeImg} alt="homeImg"></img>
+        </div>
+      </container>
     </>
-     );
-}
- 
+  );
+};
+
 export default Home;

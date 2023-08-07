@@ -1,64 +1,61 @@
 import React, { useState } from "react";
-import { Buffer } from 'buffer';
+import { useNavigate } from "react-router-dom";
+
+const baseURL = "http://localhost:5000";
+// const baseURL = "http://audio-transcribe-services.us-east-2.elasticbeanstalk.com";
+const loginURL = baseURL + "/user/login";
 
 const Login = () => {
-    
-    const [userData, setUserData] = useState({
+    const navigate = useNavigate();
+    const [loginForm, setState] = useState({
         username: '',
         password: ''
     });
-    
+
     const handleInputChange = (e) => {
         const {name, value} = e.target;
-        setUserData({...userData, [name]: value})
+        setState({...loginForm, [name]: value})
     }
 
-    function handleLogin (e) { 
-        e.preventDefault();
-        const jsonData = JSON.stringify(userData);
-        console.log(jsonData);
-        
-        try {
-            let username = 'tom678@gmail.com';
-            let password = 'audio123';
-            const response = fetch('http://localhost:5000/dummy/user/login', {
-                method: 'POST',
-                credentials: 'include',
-                mode: 'no-cors',
-                headers: {
-                Authorization: 'Basic ' + Buffer.from(username + ':' + password).toString('base64'),
-                'Content-Type': 'application/json'
-                },
-                body: jsonData,
-            });
-
-            if (response.ok) {
-                const responseData = response.json();
-                //happy path
-                console.log(responseData.message);
-            }else{
-                //sad path
-                console.log(response.json());
-                throw new Error('Failed to login');
+    const handleLogin = async () => {
+        const userLoginDataJSON = JSON.stringify(loginForm);
+        console.log(userLoginDataJSON);
+    
+        fetch(loginURL, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"                
+            },
+            body: {
+                "username": loginForm.username,
+                "password": loginForm.password
             }
-            } catch (error) {
-            console.error(error);
-            //other error
+        })
+        .then((response) => {
+            const responseData = response.json();
+            console.log(responseData.message);
+            if (response.ok) {
+                navigate("/Upload");
+            }
+            else {
+                navigate("/login");
+            }
+        })
+        .catch((error) => console.log(error));
     }
-}
 
     return ( <>
-
         <h1 className="subTitle">Log in</h1>
-        <form className="form" onSubmit={handleLogin}>
+        <form action={ loginURL } className="form" onSubmit={handleLogin} method="POST">
             <div className="field">
                 <label htmlFor="username">Username:</label>
-                <input type="text" name="username" id="username" value={userData.username}
+                <input type="text" name="username" id="username" value={loginForm.username}
                 onChange={handleInputChange}></input>
             </div>        
             <div className="field">
                 <label htmlFor="password">Password:</label>
-                <input type="password" name="password" id="password" value={userData.password}
+                <input type="password" name="password" id="password" value={loginForm.password}
                 onChange={handleInputChange}></input>
             </div>
             <div className="submit">
@@ -71,7 +68,6 @@ const Login = () => {
                 </div>
             </div>
         </form>
-        
     </> );
 }
  

@@ -1,72 +1,167 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap'); */
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  margin: auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .teamName {
-  padding: 20px;
+  padding: 10px;
+  font-size: 25px;
   max-width: 600px;
   margin: 0 auto;
-  color: #f1356d;
+  color: #212a3e;
   text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-.navbar {
-  width: 80%;
-  margin: auto;
-  padding: 20px;
-  margin-bottom: 10px;
+/*Home page*/
+#hp-container {
   display: flex;
-  align-items: center;
-  max-width: 600px;
-  
-  border: 2px solid #f2f2f2;
+  padding: 0 150px;
+  margin-bottom: 150px;
 }
 
-.navbar a {
+.hp-intro1 {
+  flex: 2;
+  align-items: start;
+  font-style: EuclidCircularA;
+  color: #0c134f;
   margin: auto;
-  text-decoration: none;
-  color: black;
-  padding: 6px;
 }
 
-.navbar a:hover {
-  color: #f1356d;
+.hp-intro1 p {
+  font-size: 50px;
+  font-weight: bolder;
 }
 
-.navbar button {
-  display: inline-flex;
-  align-items: center;
-  background-color: white;
-  font-size: 16px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
+.hp-intro2 {
+  flex: 3;
+  padding: 50px;
+}
+
+.homeImg {
+  width: 600px;
+}
+/*Home page done*/
+/*Contact page*/
+#contact-page {
+  display: flex;
+  padding: 30px 50px;
+  margin-bottom: 110px;
+}
+
+.contact1 {
+  flex: 1;
+  margin: auto 50px;
+}
+
+.contact2 {
+  flex: 2;
   margin: auto;
-  text-decoration: none;
-  color: black;
-  padding: 6px;
-  border: none;
+  padding: 0 150px;
 }
 
-.navbar button:hover {
-  color: #f1356d;
+/*Contact page done*/
+/*Player page start*/
+.webvtt-player {
+  font-family: sans-serif;
+  text-align: center;
+  max-width: 800px;
+  margin: 25px auto 130px auto;
+  max-height: 1000px;
+  padding-bottom: 20px;
+}
+.webvtt-player .active {
+  background-color: #f6f1f1;
 }
 
-.exampleImg{
+.webvtt-player .match {
+  background-color: lightyellow;
+}
+
+.webvtt-player .line {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.webvtt-player .time {
+  width: 110px;
+  float: left;
+  font-size: 10pt;
+  line-height: 14pt;
+}
+
+.webvtt-player .text {
+  margin-left: 110px;
+}
+.webvtt-player .transcript {
+  height: 90vh;
+  padding: 10px;
+  overflow-y: scroll;
+}
+.webvtt-player .media {
   width: 100%;
+  border: thin solid #f6f1f1;
+  margin-right: auto;
 }
 
+.webvtt-player audio {
+  width: 100%;
+  background-color: #f6f1f1;
+}
+
+.webvtt-player audio::-webkit-media-controls-panel {
+  background-color: #f6f1f1;
+}
+
+.webvtt-player .controls {
+  padding: 5px;
+  text-align: center;
+  vertical-align: text-top;
+  background-color: #ccc;
+}
+
+.webvtt-player .seekBar {
+  vertical-align: middle;
+  width: 70%;
+}
+.search {
+  border-top: thin solid #ccc;
+  padding: 5px 5px 100px 5px;
+  font-size: 14pt;
+  margin-top: 5px;
+}
+
+.search .container {
+  border: thin solid #ccc;
+}
+
+.search input {
+  font-size: 12pt;
+  border: none;
+  width: 90%;
+}
+
+.search input:focus {
+  outline: none;
+}
+
+.search .icon {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+/*Player page done*/
 
 .backdrop {
   position: fixed;
@@ -87,7 +182,7 @@ code {
   z-index: 1;
 }
 
-.subTitle{
+.subTitle {
   padding: 20px;
   max-width: 600px;
   margin: 0 auto;
@@ -95,7 +190,7 @@ code {
   text-align: center;
 }
 
-.form{
+.form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -109,7 +204,7 @@ code {
 
 .field label {
   display: inline-block;
-  width: 150px;
+  width: 100px;
   vertical-align: top;
 }
 
@@ -117,7 +212,6 @@ code {
 .field textarea,
 .field select {
   width: 200px;
-
 }
 
 .submit {
@@ -135,14 +229,7 @@ code {
   padding: 5px 10px;
 }
 
-.upload{
-  margin:auto;
+.dashboard{
+  list-style-type: none;
+  margin: auto;
 }
-
-.dashboard {
-  margin-left: 25%;
-  width: 100%;
-}
-
-
-
