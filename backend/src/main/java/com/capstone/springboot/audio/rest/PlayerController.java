@@ -69,7 +69,7 @@ public class PlayerController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/audio")
+    @PostMapping("/audio")
     public ResponseEntity<UploadAudioResponse> uploadAudio(@ModelAttribute UploadAudioRequest uploadAudioRequest) throws IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
