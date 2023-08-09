@@ -1,12 +1,11 @@
-import { json, useNavigate } from "react-router-dom";
+import { json, useNavigate, redirect } from "react-router-dom";
 import axios from "axios";
+import getCredential from "../tools/storage";
 
 const baseURL = "http://localhost:5000";
 // const baseURL = "http://audio-transcribe-services.us-east-2.elasticbeanstalk.com";
 
 const fileUploadURL = baseURL + "/api/audio";
-const username = "anna123@outlook.com";
-const password = "audio123";
 
 const Upload = () => {
   const navigate = useNavigate();
@@ -17,6 +16,12 @@ const Upload = () => {
   }
   
   const handleSubmit = async (event) => {
+    const credential = getCredential();
+    if (!credential || !credential.username || !credential.password) {
+      return redirect("/");
+    }
+    const username = credential.username;
+    const password = credential.password;
     event.preventDefault();
     const inputFile = event.target.audioFile.files[0];
     let requestFormData = new FormData();

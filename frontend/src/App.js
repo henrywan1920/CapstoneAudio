@@ -4,23 +4,32 @@ import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import Upload from "./pages/Upload";
 import Login from "./pages/Login";
+import Logout, { loader as logoutLoader } from "./pages/Logout";
 import Signup from "./pages/Signup";
 import Audio, { loader as audiosLoader } from "./pages/Audio";
 import MediaDetailPage, { loader as audioLoader } from "./pages/Player";
 import ErrorPage from "./pages/Error";
 import React from "react";
 import Success from "./pages/Success";
+import { loader as credentialLoader } from "./tools/storage";
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
     errorElement: <ErrorPage />,
+    id: 'root',
+    loader: credentialLoader,
     children: [
       {index: true, element: <Home />},
       {
         path: 'login',
         element: <Login />
+      },
+      {
+        path: 'logout',
+        element: <Logout />,
+        loader: logoutLoader
       },
       {
         path: 'signup',

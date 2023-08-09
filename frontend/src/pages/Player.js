@@ -21,8 +21,9 @@
 //   );
 // }
 import { Suspense, useEffect } from "react";
-import { json, defer, useRouteLoaderData, Await } from "react-router-dom";
+import { json, defer, useRouteLoaderData, Await, redirect } from "react-router-dom";
 import MediaItem from "./MediaItem";
+import getCredential from "../tools/storage";
 
 const baseURL = "http://localhost:5000";
 
@@ -54,8 +55,12 @@ const getPlayerUrlFrom = (playlist, mediaFileName) => {
 }
 
 const loadAudio = async (playlist, mediaFileName) => {
-  const username = 'anna123@outlook.com';
-  const password = 'audio123';
+  const credential = getCredential();
+  if (!credential || !credential.username || !credential.password) {
+    return redirect("/");
+  }
+  const username = credential.username;
+  const password = credential.password;
   const playerUrl = getPlayerUrlFrom(playlist, mediaFileName);
   const response = await fetch(playerUrl, {
     method: "GET",

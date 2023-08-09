@@ -26,7 +26,6 @@ import { Link } from 'react-router-dom';
 
 const AudiosList = (props) => {
   const audios = props.audios;
-  console.log(audios);
   return (
     <div>
       {Object.keys(audios).map((playlist) => (

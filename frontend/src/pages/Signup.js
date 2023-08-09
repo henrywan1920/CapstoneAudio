@@ -19,7 +19,6 @@ const Signup = () => {
             'username': username,
             'password': password
         }
-        console.log(requestBody);
         if(password !== rePassword){
             errorMessage = "Make sure you enter the same password twice!";
         }
@@ -45,7 +44,7 @@ const Signup = () => {
 
     return ( <>
         <h1 className="subTitle">Sign up</h1>
-        <form action="/user/register" className="form" onSubmit={handleSignup}>
+        <form className="form" onSubmit={handleSignup}>
             <div className="field">
                 <label htmlFor="username">Username:</label>
                 <input type="email" name="username" id="username"></input>

@@ -8,7 +8,8 @@ import {
   NavBtnLink,
 } from "./NavbarElements";
 
-const Navbar = () => {
+const Navbar = (props) => {
+  const isLogin = props.mode === "login";
   return (
     <>
       <Nav>
@@ -32,7 +33,7 @@ const Navbar = () => {
           </NavLink>
         </NavMenu>
         <NavBtn>
-          <NavBtnLink to="/login">Login</NavBtnLink>
+          <NavBtnLink to={`${isLogin ? 'login' : 'logout'}`}>{isLogin ? 'Login' : 'Logout'}</NavBtnLink>
         </NavBtn>
       </Nav>
     </>
