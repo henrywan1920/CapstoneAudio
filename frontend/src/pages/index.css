@@ -228,3 +228,8 @@ code {
   font-size: bold;
   padding: 5px 10px;
 }
+
+.dashboard{
+  list-style-type: none;
+  margin: auto;
+}
