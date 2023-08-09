@@ -1,7 +1,10 @@
+import { useLocation } from "react-router-dom";
 import successImg from "./img/success.png"
 
+
 const Success = () => {
-    const message = "Success!"
+    const { state } = useLocation();
+    const { message } = state;
     return (
         <>
             <main style={{ textAlign: 'center' }}>

@@ -34,7 +34,9 @@ const Upload = () => {
       }
     );
     if (response.status === 200) {
-      navigate('/success');
+      navigate('/success', {state: {
+        message: "Media file was uploaded successfully!"
+      }});
     }
     else {
       throw json(
