@@ -59,8 +59,8 @@ public class PlayerController {
         if (audioObjectUrl.length() == 0) {
             throw new NoAudioFoundException(String.format("No audio (%s) found in the playlist (%s): ", audio, playlist));
         }
-        String subtitleObjectUrl = audioObjectUrl.replace(".mp3", ".vtt");
-        // String audioObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.mp3";
+        String subtitleObjectUrl = audioObjectUrl.replaceAll("\\.(mp3|m4a)$", ".vtt");
+        // String audioObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.m4a";
         // String subtitleObjectUrl = "https://audio-capstone.s3.us-east-2.amazonaws.com/pool/mike456_gmail.com/EnglishA1/Celpip_9_T1_11.vtt";
         String message = "Get the audio and subtitle object URL successfully";
         PlayAudioResponse response = new PlayAudioResponse(message, audioObjectUrl, subtitleObjectUrl);
